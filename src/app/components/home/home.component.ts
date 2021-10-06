@@ -1,19 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { MealsService } from 'src/app/services/meals.service';
 
+import { Category, IMeal } from 'src/app/models/IMeal';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  meals: any = [];
+  meals: IMeal[];
   searchStr = '';
+  categories: Category[];
+  selectedCategory: any;
   constructor(private mealsService: MealsService) { }
 
   ngOnInit(): void {
     this.findMyLocation()
     this.getMeals()
+    this.getMealCategories()
   }
 
   findMyLocation() {
@@ -45,7 +50,26 @@ export class HomeComponent implements OnInit {
   onSearch(searchStr:any) {
     this.mealsService.getSearchedMeal(searchStr).subscribe(response => {
       this.meals =response
-      console.log(this.meals)
+      //console.log(this.meals)
     })
+  }
+
+  getMealCategories() {
+    this.mealsService.getMealCategories().subscribe(response => {
+      this.categories = response
+      //console.log(this.categories)
+    })
+  }
+  //onSearch() and getMealsWithSelectedCategory() methods use the same mealsService method
+  getMealsWithSelectedCategory(event) {
+    this.mealsService.getSearchedMeal(event).subscribe(response => {
+      this.meals = response
+      //console.log(this.meals)
+    })
+    //console.log(event)
+  }
+
+  addToCart(id) {
+
   }
 }
