@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MealsService } from 'src/app/services/meals.service';
 
-import { Category, IMeal } from 'src/app/models/IMeal';
+import { Category, IMeal, MealOption } from 'src/app/models/IMeal';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +12,10 @@ export class HomeComponent implements OnInit {
   meals: IMeal[];
   searchStr = '';
   categories: Category[];
+  mealOptions: MealOption[];
   selectedCategory: any;
+  selectedOption: any;
+  cartItems = [];
   constructor(private mealsService: MealsService) { }
 
   ngOnInit(): void {
@@ -43,7 +46,7 @@ export class HomeComponent implements OnInit {
   getMeals() {
     this.mealsService.getMeals().subscribe(response => {
       this.meals = response
-      console.log(this.meals)
+      //console.log(this.meals)
     })
   }
 
@@ -57,7 +60,12 @@ export class HomeComponent implements OnInit {
   getMealCategories() {
     this.mealsService.getMealCategories().subscribe(response => {
       this.categories = response
-      //console.log(this.categories)
+      console.log(this.categories)
+    })
+  }
+  getMealOptions() {
+    this.mealsService.getMealOptions().subscribe(response => {
+      this.mealOptions = response
     })
   }
   //onSearch() and getMealsWithSelectedCategory() methods use the same mealsService method
@@ -69,7 +77,39 @@ export class HomeComponent implements OnInit {
     //console.log(event)
   }
 
-  addToCart(id) {
-
+  getMealsWithSelectedOption(event) {
+    this.mealsService.getSearchedMeal(event).subscribe(response => {
+      this.meals = response
+      //console.log(this.meals)
+    })
+    //console.log(event)
   }
+
+  
+
+
+  // addToCart(meal) {
+  //   //this.cartItems.push(id);
+  //   let cartItem = {
+  //     id: meal.id,
+  //     price: meal.price,
+  //     title: meal.title,
+  //     no: 1
+  //   };
+  //   if(localStorage.getItem('cartItems') === null) {
+  //     this.cartItems.push(cartItem);
+  //     localStorage.setItem('cartItems',JSON.stringify(this.cartItems))
+  //   } else {
+  //     const localItems = JSON.parse(localStorage.getItem('cartItems'));
+  //     localItems.map(data => { 
+  //       if(data.id === )
+  //     })
+  //   }
+  //   console.log(this.cartItems)
+  //  // localStorage.setItem('mealIds', JSON.stringify(this.cartItems))
+  // //   localStorage.setItem('mealId', JSON.stringify(id));
+  // //   console.log(id);
+  // //   console.log(this.localStorageItems)
+  // }
+
 }

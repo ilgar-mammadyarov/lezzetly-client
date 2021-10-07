@@ -7,12 +7,10 @@
               <option selected disabled>Open this select menu</option>
               <option *ngFor="let category of categories" [value]="category.title">{{category.title}}</option>
             </select>
-            <!-- <select [(ngModel)]="selectedCategory" (ngModelChange)="getMealsWithSelectedCategory($event)" class="form-select" aria-label="Default select example">
-              <option selected>Open this select menu</option>
-              <option [value]="1">One</option>
-              <option [value]="2">Two</option>
-              <option [value]="3">Three</option>
-            </select> -->
+            <select [(ngModel)]="selectedOption" (ngModelChange)="getMealsWithSelectedOption($event)" class="form-select" aria-label="Default select example">
+              <option selected disabled>Open this select menu</option>
+              <option *ngFor="let option of mealOptions" [value]="option.title">{{option.title}}</option>
+            </select>
           </div>
           
           <form>
@@ -40,7 +38,7 @@
                  <!-- p tag deleted from here -->
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                      <button type="button" (click)="addToCart(meal.id)" class="btn btn-sm btn-outline-secondary">Add</button>
+                      <button type="button" routerLink="cooks/{{meal.cook.id}}" class="btn btn-sm btn-outline-secondary">Add</button>
                       <button type="button" class="btn btn-sm btn-outline-secondary">Like</button>
                     </div>
                     <small class="text-muted">{{meal.updated_at | date:'h:mm a'}}</small>
