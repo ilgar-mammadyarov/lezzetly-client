@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit {
 
       fetch(geoApiUrl)
       .then(res => res.json())
-      .then(data => {console.log(data.locality)})
+      .then(data => {console.log(data)})
 
     });
     

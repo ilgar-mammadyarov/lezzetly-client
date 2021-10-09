@@ -18,6 +18,9 @@ import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.
 import { CooksComponent } from './components/cooks/cooks.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
+import { TextInputComponent } from './shared/text-input/text-input.component';
+import { AcoountService } from './services/acoount.service';
+import { CookService } from './services/cook.service';
 
 @NgModule({
   declarations: [
@@ -30,7 +33,8 @@ import { LoginComponent } from './components/login/login.component';
     ShoppingCartComponent,
     CooksComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    TextInputComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +43,7 @@ import { LoginComponent } from './components/login/login.component';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [MealsService],
+  providers: [MealsService,AcoountService,CookService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
