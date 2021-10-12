@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit {
     this.findMyLocation()
     this.getMeals()
     this.getMealCategories()
+    this.getMealOptions()
   }
 
   findMyLocation() {
@@ -38,6 +39,12 @@ export class HomeComponent implements OnInit {
       fetch(geoApiUrl)
       .then(res => res.json())
       .then(data => {console.log(data)})
+
+      // const key = 'AIzaSyAFgcBFhPugM2u4Q-2P3jKNGWuXsNpIrNg'
+      // const googleApi = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longtitude}&key=${key}`;
+      // fetch(googleApi)
+      // .then(res => res.json())
+      // .then(data => {console.log(data)})
 
     });
     
@@ -66,6 +73,7 @@ export class HomeComponent implements OnInit {
   getMealOptions() {
     this.mealsService.getMealOptions().subscribe(response => {
       this.mealOptions = response
+      console.log(this.mealOptions)
     })
   }
   //onSearch() and getMealsWithSelectedCategory() methods use the same mealsService method

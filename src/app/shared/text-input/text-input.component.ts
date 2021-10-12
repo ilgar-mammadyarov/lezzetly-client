@@ -10,6 +10,8 @@ export class TextInputComponent implements OnInit, ControlValueAccessor {
   @ViewChild('input', {static: true}) input: ElementRef; 
   @Input() type: any;
   @Input() label: string;
+  //Test
+  @Input() value: any;
 
 
   constructor(@Self() public controlDir: NgControl) {

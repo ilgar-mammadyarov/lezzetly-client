@@ -19,7 +19,7 @@
             </li>
           </ng-container>
           <ng-container *ngIf="(currentUser$|async)">
-            <a href="">Welcome {{(currentUser$|async).email}}</a> 
+            <a href="">Welcome {{(currentUser$|async)}</a> 
             <a href="" (click)="logout()" >Logout</a>
           </ng-container>
           <li class="nav-item">

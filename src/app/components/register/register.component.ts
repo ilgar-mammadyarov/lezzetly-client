@@ -25,10 +25,11 @@ export class RegisterComponent implements OnInit {
 
   createRegisterForm() {
     this.registerForm = this.fb.group({
-      firstName: [null, Validators.required],
-      lastName: [null, Validators.required],
+      first_name: [null, Validators.required],
+      last_name: [null, Validators.required],
       patronymic: [null, Validators.required],
-      userType: [null, Validators.required],
+      user_type: [null, Validators.required],
+      phone: [null, Validators.required],
       email: [null, 
         [Validators.required, Validators
         .pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')],
@@ -40,12 +41,12 @@ export class RegisterComponent implements OnInit {
 
   onSubmit() {
     console.log(this.registerForm.value);
-    // this.accountService.register(this.registerForm.value).subscribe(response => {
-    //   this.router.navigateByUrl('/dashboard');
-    // }, error => {
-    //   console.log(error);
-    //   this.errors = error.errors;
-    // })
+    this.accountService.register(this.registerForm.value).subscribe(response => {
+      this.router.navigateByUrl('/dashboard');
+    }, error => {
+      console.log(error);
+      this.errors = error.errors;
+    })
   }
 
   // validateEmailNotTaken(): AsyncValidatorFn {

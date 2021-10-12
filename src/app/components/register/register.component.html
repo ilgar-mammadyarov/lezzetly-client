@@ -11,18 +11,15 @@
                   <div class="form-outline">
                     <!-- <input type="text" id="firstName" class="form-control form-control-lg" /> -->
                     
-                    <app-text-input formControlName="firstName"></app-text-input>
-                    <label class="form-label" for="firstName">First Name</label> 
-
-                    
-
+                    <app-text-input formControlName="first_name"></app-text-input>
+                    <label class="form-label" for="first_name">First Name</label> 
                   </div>
                 </div>
                 <div class="col-md-6 mb-4">
                   <div class="form-outline">
                     <!-- <input type="text" id="lastName" class="form-control form-control-lg" /> -->
-                    <app-text-input formControlName="lastName"></app-text-input>
-                    <label class="form-label" for="lastName">Last Name</label>
+                    <app-text-input formControlName="last_name"></app-text-input>
+                    <label class="form-label" for="last_name">Last Name</label>
                   </div>
                 </div>
               </div>
@@ -50,14 +47,20 @@
                     <label class="form-label" for="password">Password</label>
                   </div>
                 </div>
+                <div class="col-md-6 mb-4 pb-2">
+                  <div class="form-outline">
+                    <!-- <input type="text" id="patronymic" class="form-control form-control-lg" /> -->
+                    <app-text-input formControlName="phone"></app-text-input>
+                    <label class="form-label" for="patronymic">Phone</label>
+                  </div>
+                </div>
               </div>
               <div class="row">
                 <div class="col-12">
-                  <select formControlName="userType" (ngModelChange)="true" class="select form-control-lg">
+                  <select formControlName="user_type" (ngModelChange)="true" class="select form-control-lg">
                     <!-- <option value="1" disabled>Choose option</option> -->
-                    <option [value]="1">Subject 1</option>
-                    <option [value]="2">Subject 2</option>
-                    <option [value]="3">Subject 3</option>
+                    <option [value]="1">Cook</option>
+                    <option [value]="2">Courier</option>
                   </select>
                   <label class="form-label select-label">Choose option</label>
                 </div>

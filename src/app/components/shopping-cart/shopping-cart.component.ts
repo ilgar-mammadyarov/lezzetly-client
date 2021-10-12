@@ -11,13 +11,18 @@ export class ShoppingCartComponent implements OnInit {
   meals: any;
   mealIds: any;
   uniqueMealIds = [];
+
+  cartMeals: any;
   constructor(private mealsService: MealsService) {
    }
 
   ngOnInit(): void {
     //this.getMealIds()
+    this.getCartMeals()
   }
-
+  getCartMeals() {
+    this.cartMeals = JSON.parse(localStorage.getItem('cartMeals')) 
+  }
 
   // getMealIds() {
   //   if(localStorage.getItem('mealIds') === null) {

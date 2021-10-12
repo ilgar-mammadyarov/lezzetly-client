@@ -21,6 +21,8 @@ import { LoginComponent } from './components/login/login.component';
 import { TextInputComponent } from './shared/text-input/text-input.component';
 import { AcoountService } from './services/acoount.service';
 import { CookService } from './services/cook.service';
+import { CookMealsComponent } from './components/dashboard/cook-meals/cook-meals.component';
+import { ProfileComponent } from './components/dashboard/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { CookService } from './services/cook.service';
     CooksComponent,
     RegisterComponent,
     LoginComponent,
-    TextInputComponent
+    TextInputComponent,
+    CookMealsComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

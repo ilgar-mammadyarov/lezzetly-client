@@ -8,22 +8,20 @@ import { AcoountService } from './services/acoount.service';
 })
 export class AppComponent implements OnInit {
   title = 'client';
-
-  constructor(private accountService: AcoountService) {}
+  
+  constructor(private accountService: AcoountService) { }
 
   ngOnInit() {
-   // this.loadCurrentUser()
+  //  this.loadCurrentUser()
   }
 
   // loadCurrentUser() {
   //   const token = localStorage.getItem('token');
-  //   if(token) {
-  //     this.accountService.loadCurrentUser(token).subscribe(() => {
-  //       console.log('user loadad')
-  //     },error => {
-  //       console.log(error)
-  //     })
-  //   }
+  //   this.accountService.loadCurrentUser(token).subscribe(() => {
+  //     console.log('user loadad')
+  //   }, error => {
+  //     console.log(error)
+  //   })
 
   // }
 
