@@ -28,13 +28,10 @@
                     </div>
                   </td>
                   <td class="text-right font-weight-semibold align-middle p-4">${{cartMeal.price}}</td>
-                  <td class="align-middle p-4"><input type="number"  [(ngModel)]="cartMeal.quantity" class="form-control text-center" value="{{cartMeal.quantity}}"></td>
+                  <td class="align-middle p-4"><input type="number" min="0" (keyup.enter)="changeQuantity(cartMeal.id, $any($event.target).value)" [(ngModel)]="cartMeal.quantity" class="form-control text-center" placeholder="{{cartMeal.quantity}}"></td>
                   <td class="text-right font-weight-semibold align-middle p-4">${{cartMeal.price*cartMeal.quantity}}</td>
-                  <td class="text-center align-middle px-0"><a  class="shop-tooltip close float-none text-danger" >×</a></td>
+                  <td class="text-center align-middle px-0"><a (click)="deleteCartMeal(cartMeal.id)" class="shop-tooltip close float-none text-danger" style="font-weight: bold;" >X</a></td>
                 </tr>
-      
-
-      
               </tbody>
             </table>
           </div>

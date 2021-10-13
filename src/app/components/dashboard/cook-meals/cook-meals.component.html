@@ -11,10 +11,11 @@
         <th>#</th>
         <th>Title</th>
         <th>Price</th>
-        <th>Stock Quantity</th>
-        <!-- <th>Category</th>
+        <th>Quantity</th>
+        <th>Category</th>
         <th>Mealoption</th>
-        <th>Ingredients</th> -->
+        <th>Ingredients</th>
+        <th>Remove</th> 
       </tr>
     </thead>
     <!--Table head-->
@@ -25,10 +26,11 @@
         <th scope="row">{{meal.id}}</th>
         <td>{{meal.title}}</td>
         <td>{{meal.price}}</td>
-        <td>{{meal.stock_quantity}}</td>
-        <!-- <td>{{meal.category[0]}}</td>
-        <td>{{meal.mealoption[0]}}</td>
-        <td>{{meal.ingredients[0]}}</td> -->
+        <td> <input type="number"  class="form-control"  (keyup.enter)="changeQuantity(meal.id, $any($event.target).value)" placeholder="{{meal.stock_quantity}}" ></td>
+        <td>{{meal.category[0].title}}</td>
+        <td>{{meal.mealoption[0].title}}</td>
+        <td>{{meal.ingredients[0].title}}</td>
+        <td style="color: red; font-weight: bold; cursor: pointer;" (click)="deleteMeal(meal.id)">X</td>
       </tr>
     </tbody>
     <!--Table body-->
@@ -50,9 +52,9 @@
             <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">Edogaru</span><span class="text-black-50">edogaru@mail.com.my</span><span> </span></div>
         </div>
         <div class="col-md-5 border-right">
-            <div class="p-3 py-5">
+            <form class="p-3 py-5" [formGroup]="addMealForm" (ngSubmit)="onSubmit()">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4 class="text-right">Profile Settings</h4>
+                    <h4 class="text-right">Add Meal</h4>
                 </div>
                 <!-- <div class="row mt-2">
                     <div class="col-md-6"><label class="labels">Title</label><input type="text" class="form-control" placeholder="first name" value=""></div>
@@ -60,40 +62,31 @@
                     <div class="col-md-6"><label class="labels">Stock Quantity</label><input type="text" class="form-control" value="" placeholder="patronymic"></div>
                 </div> -->
                 <div class="row mt-3">
-                    <div class="col-md-12"><label class="labels">Title</label><input type="text" class="form-control" placeholder="enter phone number" value=""></div>
-                    <div class="col-md-12"><label class="labels">Price</label><input type="text" class="form-control" placeholder="enter email id" value=""></div>
-                    <div class="col-md-12"><label class="labels">Stock Quantity</label><input type="text" class="form-control" placeholder="enter birth place" value=""></div>
+                    <div class="col-md-12"><label class="labels">Title</label><app-text-input formControlName="title"></app-text-input></div>
+                    <div class="col-md-12"><label class="labels">Price</label><app-text-input formControlName="price" [type]="'number'" ></app-text-input></div>
+                    <div class="col-md-12"><label class="labels">Stock Quantity</label><app-text-input formControlName="stock_quantity" [type]="'number'"></app-text-input></div>
                     <div class="col-md-12"><label class="labels">Categories</label>
-                       <select class="form-select" aria-label="Default select example">
-                        <option selected disabled>Select categories</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                       <select class="form-select" multiple formControlName="category" (ngModelChange)="true"  aria-label="Default select example">
+                        <option *ngFor="let category of categories" [value]="category.id">{{category.title}}</option>
                       </select>
                     </div>
                     <div class="col-md-12"><label class="labels">Ingredients</label>
-                        <select class="form-select" aria-label="Default select example">
-                         <option selected disabled>Select ingredients</option>
-                         <option value="1">One</option>
-                         <option value="2">Two</option>
-                         <option value="3">Three</option>
+                        <select class="form-select" multiple formControlName="ingredients" (ngModelChange)="true" aria-label="Default select example">
+                         <option *ngFor="let ingredient of ingredients" [value]="ingredient.id">{{ingredient.title}}</option>
                        </select>
                      </div>
                      <div class="col-md-12"><label class="labels">Meal Options</label>
-                        <select class="form-select" aria-label="Default select example">
-                         <option selected disabled>Select meal options</option>
-                         <option value="1">One</option>
-                         <option value="2">Two</option>
-                         <option value="3">Three</option>
+                        <select class="form-select" multiple formControlName="mealoption" (ngModelChange)="true" aria-label="Default select example">
+                         <option *ngFor="let option of mealoptions" [value]="option.id">{{option.title}}</option>
                        </select>
                      </div>
                     <!-- <div class="col-md-12"><label class="labels">Payment Address</label><input type="text" class="form-control" placeholder="enter payment address" value=""></div>
                     <div class="col-md-12"><label class="labels">Work Experience</label><input type="text" class="form-control" placeholder="enter work experience" value=""></div> -->
                     <div class="col-md-12">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <input formControlName="is_active" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                             <label class="form-check-label" for="flexCheckDefault">
-                              Is Available?
+                              Is Active?
                             </label>
                       </div>
                     </div>
@@ -102,9 +95,12 @@
                     <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control" placeholder="country" value=""></div>
                     <div class="col-md-6"><label class="labels">State/Region</label><input type="text" class="form-control" value="" placeholder="state"></div>
                 </div> -->
-                <div  class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
+                <div class="mt-5 text-center"><input [disabled]="addMealForm.invalid"  class="btn btn-primary btn-lg" type="submit" value="Submit" /></div>
+            </form>
+            <div *ngIf="errorMsg" class="alert alert-danger" role="alert">
+              <h4 class="text-al">{{errorMsg}} <span routerLink="/profle">Click</span> </h4>
             </div>
-        </div>
+          </div>
     </div>
 </div>
 <!-- </div>

@@ -19,8 +19,16 @@
             </li>
           </ng-container>
           <ng-container *ngIf="(currentUser$|async)">
-            <a href="">Welcome {{(currentUser$|async)}</a> 
-            <a href="" (click)="logout()" >Logout</a>
+            <li class="nav-item">
+              <a class="nav-link">Welcome!!!</a> 
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" (click)="logout()" >Logout</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="dashboard" >Dashboard</a>
+            </li>
+
           </ng-container>
           <li class="nav-item">
             <a class="nav-link" routerLink="shopping-cart">Cart

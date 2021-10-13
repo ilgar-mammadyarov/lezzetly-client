@@ -22,6 +22,28 @@ export class ShoppingCartComponent implements OnInit {
   }
   getCartMeals() {
     this.cartMeals = JSON.parse(localStorage.getItem('cartMeals')) 
+    console.log(this.cartMeals)
+  }
+  changeQuantity(id, quantity) {
+    let changedMeals = JSON.parse(localStorage.getItem('cartMeals'))
+    for(let i=0; i<changedMeals.length;i++) {
+      if(changedMeals[i].id === id) {
+        changedMeals[i].quantity = +quantity;
+      }     
+    }
+    localStorage.removeItem('cartMeals');
+    localStorage.setItem('cartMeals', JSON.stringify(changedMeals))
+    
+  }
+  deleteCartMeal(id) {
+    let changedMeals = JSON.parse(localStorage.getItem('cartMeals'))
+    for(let i=0; i<changedMeals.length;i++) {
+      if(changedMeals[i].id === id) {
+        console.log(changedMeals[i])
+        changedMeals.splice(changedMeals[i],1)
+      }     
+    }
+    console.log(changedMeals)
   }
 
   // getMealIds() {

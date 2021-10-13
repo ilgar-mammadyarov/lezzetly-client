@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit {
   getMeals() {
     this.mealsService.getMeals().subscribe(response => {
       this.meals = response
-      //console.log(this.meals)
+      console.log(this.meals)
     })
   }
 
@@ -67,13 +67,13 @@ export class HomeComponent implements OnInit {
   getMealCategories() {
     this.mealsService.getMealCategories().subscribe(response => {
       this.categories = response
-      console.log(this.categories)
+      //console.log(this.categories)
     })
   }
   getMealOptions() {
     this.mealsService.getMealOptions().subscribe(response => {
       this.mealOptions = response
-      console.log(this.mealOptions)
+      //console.log(this.mealOptions)
     })
   }
   //onSearch() and getMealsWithSelectedCategory() methods use the same mealsService method
