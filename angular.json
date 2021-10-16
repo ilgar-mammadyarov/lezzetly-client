@@ -62,6 +62,8 @@
             },
             "development": {
               "buildOptimizer": false,
+              "serviceWorker": true,
+              "ngswConfigPath": "src/ngsw-config.json",
               "optimization": false,
               "vendorChunk": true,
               "extractLicenses": false,

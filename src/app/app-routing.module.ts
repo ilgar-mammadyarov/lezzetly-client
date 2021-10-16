@@ -3,7 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { CooksComponent } from './components/cooks/cooks.component';
 import { CookMealsComponent } from './components/dashboard/cook-meals/cook-meals.component';
+import { CourierProfileComponent } from './components/dashboard/courier-profile/courier-profile.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { OrdersComponent } from './components/dashboard/orders/orders.component';
 import { ProfileComponent } from './components/dashboard/profile/profile.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
@@ -18,7 +20,9 @@ const routes: Routes = [
   {path: 'checkout', component: CheckoutComponent},
   {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
+  {path: 'courier-profile', component: CourierProfileComponent, canActivate: [AuthGuard]},
   {path: 'cook-meals', component: CookMealsComponent, canActivate: [AuthGuard]},
+  {path: 'orders', component: OrdersComponent, canActivate: [AuthGuard]},
   {path: 'register', component: RegisterComponent},
   {path: 'login', component: LoginComponent},
   {path: '**', redirectTo: '', pathMatch: 'full'}

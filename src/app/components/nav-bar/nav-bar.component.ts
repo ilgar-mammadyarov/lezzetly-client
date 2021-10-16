@@ -10,10 +10,12 @@ import { AcoountService } from 'src/app/services/acoount.service';
 })
 export class NavBarComponent implements OnInit {
   currentUser$: Observable<any>;
+  userInfo;
   constructor(private accountService: AcoountService, private router: Router ) { }
 
   ngOnInit(): void {
     this.currentUser$ = this.accountService.currentUser$
+    this.userInfo = this.accountService.user;
   }
 
   logout() {

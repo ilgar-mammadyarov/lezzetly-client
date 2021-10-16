@@ -17,15 +17,55 @@ export class CookService {
   }
 
   addMeal(values, token) {
+    //const token = localStorage.getItem('token');
     let headers = new HttpHeaders()
     headers = headers.set('Authorization', `Bearer ${token}`)
-    return this.http.post(environment.baseUrl + 'meal-create/', values, {headers}).pipe(
-      map((user: any) => {
-        if(user) {
-          localStorage.setItem('token', user.token);
-          this.currentUserSource.next(user);
-        }
-      })
-    )
+    return this.http.post(environment.baseUrl + 'meal-create/', values, {headers})
+    //.pipe(
+    //   map((user: any) => {
+    //     if(user) {
+    //       localStorage.setItem('token', user.token);
+    //       this.currentUserSource.next(user);
+    //     }
+    //   })
+    // )
+  }
+
+  changeQuantuty(id, quantity) {
+    const token = localStorage.getItem('token');
+    let headers = new HttpHeaders()
+    headers = headers.set('Authorization', `Bearer ${token}`)
+    let body = {
+      "stock_quantity": quantity
+    }
+    return this.http.patch(environment.baseUrl + 'meals/' + id + '/', body,{headers})
+  }
+
+  getCookRecommendationById(cookId) {
+    const token = localStorage.getItem('token');
+    let headers = new HttpHeaders()
+    headers = headers.set('Authorization', `Bearer ${token}`)
+    return this.http.get(environment.baseUrl + 'cooks/' + cookId + '/recommendations/', {headers});
+  }
+
+  postRecommendationByCookId(cookId, body) {
+    const token = localStorage.getItem('token');
+    let headers = new HttpHeaders()
+    headers = headers.set('Authorization', `Bearer ${token}`)
+    return this.http.post(environment.baseUrl + 'cooks/' + cookId + '/recommendations/', body, {headers})
+  }
+
+  getCookResumeById(cookId) {
+    const token = localStorage.getItem('token');
+    let headers = new HttpHeaders()
+    headers = headers.set('Authorization', `Bearer ${token}`)
+    return this.http.get(environment.baseUrl + 'cooks/' + cookId + '/resumes/', {headers});
+  }
+
+  postResumeByCookId(cookId, body) {
+    const token = localStorage.getItem('token');
+    let headers = new HttpHeaders()
+    headers = headers.set('Authorization', `Bearer ${token}`)
+    return this.http.post(environment.baseUrl + 'cooks/' + cookId + '/resumes/', body, {headers})
   }
 }

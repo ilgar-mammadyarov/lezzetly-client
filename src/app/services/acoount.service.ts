@@ -5,6 +5,8 @@ import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
+
+import { JwtHelperService } from "@auth0/angular-jwt";
 @Injectable({
   providedIn: 'root'
 })
@@ -13,9 +15,24 @@ export class AcoountService {
   private currentUserSource = new BehaviorSubject<any>(null);
   currentUser$ = this.currentUserSource.asObservable();
 
+  user = {
+    user_type: '',
+    name: '',
+    surname: '',
+    mail: '',
+    id: 0
+  }
+
+
+  helper = new JwtHelperService();
+
   constructor(private http: HttpClient, private router: Router) {
     this.currentUserSource = new BehaviorSubject<any>(localStorage.getItem('token'));
         this.currentUser$ = this.currentUserSource.asObservable();
+      if(localStorage.getItem('token')) {
+        this.decodeTokenUserInfo(localStorage.getItem('token'))
+      }
+
    }
 
 
@@ -51,16 +68,30 @@ export class AcoountService {
     return this.http.get(environment.baseUrl + 'user', {headers});
   }
 
+
   login(values: any) {
     return this.http.post(environment.baseUrl + 'login/', values).pipe(
       map((user: any) => {
         if(user) {
+          this.decodeTokenUserInfo(user.token);
+          //console.log(this.user)
           localStorage.setItem('token', user.token);
           this.currentUserSource.next(user);
         }
       })
     )
   }
+  private decodeTokenUserInfo(token: any) {
+    const decodedToken = this.helper.decodeToken(token);
+    
+    this.user.user_type = decodedToken.user_type;
+    this.user.name = decodedToken.first_name;
+    this.user.surname = decodedToken.last_name;
+    this.user.mail = decodedToken.email;
+    this.user.id = decodedToken.id;
+    return this.user
+  }
+
   register(values: any) {
     return this.http.post(environment.baseUrl + 'register/', values).pipe(
       map((user: any) => {
@@ -83,6 +114,19 @@ export class AcoountService {
       })
     )
   } 
+
+  updateCourierProfile(values, id, token) {
+    let headers = new HttpHeaders()
+    headers = headers.set('Authorization', `Bearer ${token}`)
+    return this.http.put(environment.baseUrl + 'couriers/' + id , values, {headers}).pipe(
+      map((user: any) => {
+        if(user) {
+          localStorage.setItem('token', user.token);
+          this.currentUserSource.next(user);
+        }
+      })
+    )
+  }
 
   logout() {
     localStorage.removeItem('token');

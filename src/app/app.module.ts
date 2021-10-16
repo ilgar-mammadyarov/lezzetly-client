@@ -23,6 +23,13 @@ import { AcoountService } from './services/acoount.service';
 import { CookService } from './services/cook.service';
 import { CookMealsComponent } from './components/dashboard/cook-meals/cook-meals.component';
 import { ProfileComponent } from './components/dashboard/profile/profile.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from 'src/environments/environment.prod';
+import { OrdersComponent } from './components/dashboard/orders/orders.component';
+import { AddCourierComponent } from './components/dashboard/add-courier/add-courier.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CourierService } from './services/courier.service';
+import { CourierProfileComponent } from './components/dashboard/courier-profile/courier-profile.component';
 
 @NgModule({
   declarations: [
@@ -38,16 +45,21 @@ import { ProfileComponent } from './components/dashboard/profile/profile.compone
     LoginComponent,
     TextInputComponent,
     CookMealsComponent,
-    ProfileComponent
+    ProfileComponent,
+    OrdersComponent,
+    AddCourierComponent,
+    CourierProfileComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbModule
+    //ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production})
   ],
-  providers: [MealsService,AcoountService,CookService],
+  providers: [MealsService,AcoountService,CookService, CourierService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

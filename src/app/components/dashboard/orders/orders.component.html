@@ -1,0 +1,86 @@
+<div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col" *ngIf="userInfo.user_type==2">Cook</th>
+        <th scope="col">Client</th>
+        <th scope="col">Phone</th>
+        <th scope="col">Meal</th>
+        <!-- <th scope="col">Quantity</th> -->
+        <th scope="col" *ngIf="userInfo.user_type==1">Reject</th>
+        <th scope="col">Complete</th>
+        <th scope="col" *ngIf="userInfo.user_type==1">Add Courier</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of orders">
+        <th scope="row">{{order.id}}</th>
+        <td *ngIf="userInfo.user_type==2">{{order.cook.first_name}}</td>
+        <td>{{order.customer_first_name}} {{order.customer_last_name}}</td>
+        <td>{{order.customer_phone}}</td>
+        <td><select name="" id="">
+            <option value="" *ngFor="let item of order.items">{{item.meal_title}} - {{item.quantity}}</option>
+          </select></td>
+        <!-- <td><select name="" id=""><option value="" *ngFor="let item of order.items">{{item.quantity}}</option></select></td> -->
+        <!-- <td>{{order.items}}</td> -->
+        <td *ngIf="userInfo.user_type==1">{{order.is_rejected}}</td>
+        <td>{{order.complete}}</td>
+        <td *ngIf="userInfo.user_type==1"><button class="btn btn-primary" (click)="open(content, order.id)">Find Courier</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+
+
+<!-- <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button> -->
+
+<!-- (click)="open(content, { size: 'xl' })" -->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+    <button type="button" class="close btn btn-primary" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Area - Price</th>
+          <!-- <th scope="col">Area</th> -->
+          <th scope="col">Choose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let courier of couriers">
+          <th scope="row">{{courier.id}}</th>
+          <td>{{courier.first_name}} {{courier.last_name}}</td>
+          <!-- <td>
+            <select name="" id="" >
+              <option value="" *ngFor="let area of courierAreas"><span *ngIf="courier.id == area.courier">{{area.delivery_price}}</span></option>
+            </select>
+          </td> -->
+          <td>
+            <select name="" id="" >
+              <option value="" *ngFor="let area of courier.delivery_areas"><span (click)="testt(area)">{{area.area.area_name}} - {{area.delivery_price}}</span></option>
+            </select>
+          </td>
+          <td><button class="btn btn-primary" (click)="addCourier(courier.id)">X</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">Close</button>
+  </div> -->
+</ng-template>
+
+
+<!-- <button (click)="off()">Click me</button> -->

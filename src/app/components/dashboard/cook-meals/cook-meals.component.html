@@ -12,34 +12,34 @@
         <th>Title</th>
         <th>Price</th>
         <th>Quantity</th>
-        <th>Category</th>
+        <!-- <th>Category</th>
         <th>Mealoption</th>
-        <th>Ingredients</th>
+        <th>Ingredients</th> -->
         <th>Remove</th> 
       </tr>
     </thead>
     <!--Table head-->
   
     <!--Table body-->
-    <tbody>
-      <tr class="table-info" *ngFor="let meal of meals"> 
+    <tbody >
+      <tr class="table-info" *ngFor="let meal of meals"  > 
         <th scope="row">{{meal.id}}</th>
         <td>{{meal.title}}</td>
         <td>{{meal.price}}</td>
         <td> <input type="number"  class="form-control"  (keyup.enter)="changeQuantity(meal.id, $any($event.target).value)" placeholder="{{meal.stock_quantity}}" ></td>
-        <td>{{meal.category[0].title}}</td>
+        <!-- <td>{{meal.category[0].title}}</td>
         <td>{{meal.mealoption[0].title}}</td>
-        <td>{{meal.ingredients[0].title}}</td>
+        <td>{{meal.ingredients[0].title}}</td> -->
         <td style="color: red; font-weight: bold; cursor: pointer;" (click)="deleteMeal(meal.id)">X</td>
       </tr>
     </tbody>
+    
     <!--Table body-->
-  
   
   </table>
   <!--Table-->
 </div>
-
+<div *ngIf="deleteErrMsg" >{{deleteErrMsg}}</div>
 
 
 

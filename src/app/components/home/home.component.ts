@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MealsService } from 'src/app/services/meals.service';
 
 import { Category, IMeal, MealOption } from 'src/app/models/IMeal';
+import { AcoountService } from 'src/app/services/acoount.service';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,12 @@ export class HomeComponent implements OnInit {
   selectedCategory: any;
   selectedOption: any;
   cartItems = [];
-  constructor(private mealsService: MealsService) { }
+
+  clientLocation: any;
+
+
+  test: any;
+  constructor(private mealsService: MealsService, private accountService: AcoountService) { }
 
   ngOnInit(): void {
     this.findMyLocation()

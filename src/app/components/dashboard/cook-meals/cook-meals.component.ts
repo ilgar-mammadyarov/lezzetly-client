@@ -15,6 +15,7 @@ export class CookMealsComponent implements OnInit {
   meals: any= [];
   cookId: any;
   errorMsg: any;
+  deleteErrMsg: any;
 
   addMealForm: FormGroup;
 
@@ -98,11 +99,11 @@ export class CookMealsComponent implements OnInit {
 
   onSubmit() {
     const token = localStorage.getItem('token');
-    console.log(this.addMealForm.value)
+    //console.log(this.addMealForm.value)
     this.cookService.addMeal(this.addMealForm.value, token).subscribe(response => {
       console.log(response)
     },error => {
-      console.log(error)
+      //console.log(error)
       this.errorMsg = error.error.message
     })
   }
@@ -113,9 +114,15 @@ export class CookMealsComponent implements OnInit {
       this.getCookMeals()
     },error => {
       console.log(error)
+      // this.deleteErrMsg = error.error.message
+      // console.log(this.deleteErrMsg)
     })
   }
   changeQuantity(id, quantity) {
-    console.log(id + '   ' + quantity)
+    this.cookService.changeQuantuty(id, quantity).subscribe(response => {
+      console.log(response)
+    }, error => {
+      console.log(error)
+    })
   }
 }

@@ -13,20 +13,20 @@ import { toUnicode } from 'punycode';
 })
 export class CooksComponent implements OnInit {
   cook: any;
-  meals: IMeal[]=[];
+  meals: IMeal[] = [];
 
 
   //meals: any;
   cartMeals: any[] = [];
- // testMeals: any[] = [];
+  // testMeals: any[] = [];
   cartMeal: any;
 
   constructor(private cookService: CookService,
-              private mealService: MealsService, 
-              private activatedRoute: ActivatedRoute) { }
+    private mealService: MealsService,
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-   // this.getCookById();
+    // this.getCookById();
     this.getMealsByCookId();
   }
   getCookById() {
@@ -45,7 +45,7 @@ export class CooksComponent implements OnInit {
   getMealsByCookId() {
     this.mealService.getMeals().subscribe(response => {
       // this.meals = response.filter(item => item.cook.id == this.cook.id);
-      this.meals = response.filter(item => item.cook.id ==  +this.activatedRoute.snapshot.paramMap.get('id'));
+      this.meals = response.filter(item => item.cook.id == +this.activatedRoute.snapshot.paramMap.get('id'));
       console.log(this.meals)
       //console.log(response[0].cook.id)
     })
@@ -54,30 +54,38 @@ export class CooksComponent implements OnInit {
 
   addToCart(meal) {
     this.cartMeal = {
-    id: meal.id,
-    title: meal.title,
-    price: meal.price,
-    quantity: 1
+      id: meal.id,
+      cookId: meal.cook.id,
+      title: meal.title,
+      price: meal.price,
+      quantity: 1
+    }
+    if (JSON.parse(localStorage.getItem('cartMeals')) === null) {
+      this.cartMeals.push(this.cartMeal)
+      localStorage.setItem('cartMeals', JSON.stringify(this.cartMeals))
+      window.location.reload();
+    } 
+    else {
+      
+      const localItems = JSON.parse(localStorage.getItem('cartMeals'))
+        for(let i=0; i<localItems.length; i++) {
+          if(localItems[i].id == this.cartMeal.cookId) {
+            return console.log('meals from different users!s')
+          }
+        }
+      localItems.map(data => {
+        if (data.id == this.cartMeal.id) {
+          this.cartMeal.quantity = data.quantity + 1;
+        } else {
+          this.cartMeals.push(data)
+        }
+      })
+      this.cartMeals.push(this.cartMeal)
+      localStorage.setItem('cartMeals', JSON.stringify(this.cartMeals))
+      window.location.reload();
+      console.log(this.cartMeals)
+    }
+    //console.log(meal)
   }
-  if(JSON.parse(localStorage.getItem('cartMeals')) === null){
-    this.cartMeals.push(this.cartMeal)
-    localStorage.setItem('cartMeals', JSON.stringify(this.cartMeals))
-    window.location.reload();
-  }else{
-    const localItems = JSON.parse(localStorage.getItem('cartMeals'))
-    localItems.map(data => {
-      if(data.id == this.cartMeal.id) {
-        this.cartMeal.quantity = data.quantity + 1; 
-      }else {
-        this.cartMeals.push(data)
-      }
-    })
-    this.cartMeals.push(this.cartMeal)
-    localStorage.setItem('cartMeals', JSON.stringify(this.cartMeals))
-    window.location.reload();
-    console.log(this.cartMeals)
-  }
-  //console.log(meal)
-}
 
 }

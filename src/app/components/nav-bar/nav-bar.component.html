@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark" aria-label="Third navbar example">
+<nav class="navbar navbar-expand-sm navbar-dark bg-primary" aria-label="Third navbar example">
     <div class="container-fluid">
       <a class="navbar-brand" routerLink="">LƏZZƏTLİ</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,7 +20,7 @@
           </ng-container>
           <ng-container *ngIf="(currentUser$|async)">
             <li class="nav-item">
-              <a class="nav-link">Welcome!!!</a> 
+              <a class="nav-link">Welcome {{userInfo.name}}</a> 
             </li>
             <li class="nav-item">
               <a class="nav-link" (click)="logout()" >Logout</a>

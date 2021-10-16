@@ -12,74 +12,8 @@
 
         </div>
 
-        <div class="col-md-5 border-right" *ngIf="user && userInfo.user_type==1">
-            <form class="p-3 py-5" [formGroup]="updateRegisterForm" (ngSubmit)="onSubmit()">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4 class="text-right">Profile Settings</h4>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-md-6"><label class="labels">Name</label>
-                        <app-text-input formControlName="first_name" value="{{user.first_name}}"></app-text-input>
-                    </div>
-                    <div class="col-md-6"><label class="labels">Surname</label>
-                        <app-text-input formControlName="last_name" value="{{user.last_name}}"></app-text-input>
-                    </div>
-                    <div class="col-md-6"><label class="labels">Patronymic</label>
-                        <app-text-input formControlName="patronymic" value="{{user.patronymic}}"></app-text-input>
-                    </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-md-12"><label class="labels">Mobile Number</label>
-                        <app-text-input formControlName="phone" value="{{user.phone}}"></app-text-input>
-                    </div>
-                    <div class="col-md-12"><label class="labels">Email</label>
-                        <app-text-input formControlName="email" value="{{user.email}}"></app-text-input>
-                    </div>
-                    <div class="col-md-12"><label class="labels">Birth Place</label>
-                        <app-text-input formControlName="birth_place"></app-text-input>
-                    </div>
-                    <div class="col-md-12"><label class="labels">City</label>
-                        <app-text-input formControlName="city"></app-text-input>
-                    </div>
-                    <div class="col-md-12"><label class="labels">Service Place</label>
-                        <app-text-input formControlName="service_place"></app-text-input>
-                    </div>
-                    <!-- <div class="col-md-12"><label class="labels">Service Place</label>
-                       <select formControlName="service_place" (ngModelChange)="true" class="form-select" aria-label="Default select example">
-                        <option disabled>Open this select menu</option>
-                        <option [value]="1">Yasamal</option>
-                        <option [value]="2">Nesimi</option>
-                        <option [value]="3">Xetai</option>
-                      </select>
-                      </div> -->
-                    <div class="col-md-12"><label class="labels">Payment Address</label>
-                        <app-text-input formControlName="payment_address"></app-text-input>
-                    </div>
-                    <div class="col-md-12"><label class="labels">Work Experience</label>
-                        <app-text-input formControlName="work_experience" [type]="'number'"></app-text-input>
-                    </div>
-                    <div class="col-md-12"><label class="labels">Rating</label><input disabled type="text"
-                            class="form-control" placeholder="" value=""></div>
-                    <div class="col-md-12">
-                        <div class="form-check">
-                            <input formControlName="is_available" class="form-check-input" type="checkbox" value=""
-                                id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Is Available?
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <!-- <div class="row mt-3">
-                    <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control" placeholder="country" value=""></div>
-                    <div class="col-md-6"><label class="labels">State/Region</label><input type="text" class="form-control" value="" placeholder="state"></div>
-                </div> -->
-                <div class="mt-5 text-center"><input [disabled]="updateRegisterForm.invalid"
-                        class="btn btn-primary btn-lg" type="submit" value="Submit" /></div>
-            </form>
-        </div>
 
-        <div class="col-md-5 border-right" *ngIf="user && userInfo.user_type==2">
+        <div class="col-md-5 border-right" *ngIf="user">
 
             <form [formGroup]="updateCourierForm"  (ngSubmit)="onCourierSubmit()" >
                 <div class="row">
@@ -218,73 +152,7 @@
 </div>
 
 
-<div class="container" *ngIf="userInfo.user_type==1">
-    <div class="row">
-        <div class="col-6">
-            <h3>Recommendations</h3>
-            <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
-                <ngb-panel title="{{recom.recommended_by}}" *ngFor="let recom of recommendations">
-                  <ng-template ngbPanelContent>
-                    {{recom.description}}
-                  </ng-template>
-                </ngb-panel> 
-              </ngb-accordion>
-        </div>
-        <div class="col-6">
-            <h3>Add Recommendation</h3>
-            <form [formGroup]="recomForm"  (ngSubmit)="onRecomFormSubmit()" >
-                <div class="form-outline">
-                    <input formControlName="recommended_by" type="text" id="recommended_by" class="form-control form-control-lg" />
-                    <label class="form-label" for="recommended_by">Recommended by</label>
-                    <span class="text-danger"
-                    *ngIf="recomForm.get('recommended_by').invalid
-                    && recomForm.get('recommended_by').touched
-                    && recomForm.get('recommended_by').errors['required']">
-                    Recommended_by is required
-                    </span>
-                </div>
-
-                <div class="form-outline">
-                    <input formControlName="description" type="text" id="description" class="form-control form-control-lg" />
-                    <label class="form-label" for="description">Description</label>
-                    <span class="text-danger"
-                    *ngIf="recomForm.get('description').invalid
-                    && recomForm.get('description').touched
-                    && recomForm.get('description').errors['required']">
-                    Description is required
-                    </span>
-                </div>
-                <div class="mt-4 pt-2">
-                    <input [disabled]="recomForm.invalid" class="btn btn-primary btn-lg" type="submit" value="Submit" />
-                  </div> 
-            </form>
-        </div>
-        <div class="col-6">
-            <h3>Resumes</h3>
-            <p *ngFor="let resume of resumes">{{resume.description}}</p>
-        </div>
-        <div class="col-6">
-            <h3>Add Resume</h3>
-            <form [formGroup]="resumeForm"  (ngSubmit)="onResumeFormSubmit()" >
-                <div class="form-outline">
-                    <input formControlName="description" type="text" id="description" class="form-control form-control-lg" />
-                    <label class="form-label" for="description">Description</label>
-                    <span class="text-danger"
-                    *ngIf="resumeForm.get('description').invalid
-                    && resumeForm.get('description').touched
-                    && resumeForm.get('description').errors['required']">
-                    Description is required
-                    </span>
-                </div>
-                <div class="mt-4 pt-2">
-                    <input [disabled]="resumeForm.invalid" class="btn btn-primary btn-lg" type="submit" value="Submit" />
-                  </div> 
-            </form>
-        </div>
-    </div>
-</div>
-
-<div class="container" *ngIf="userInfo.user_type == 2">
+<div class="container">
     <div class="row">
         <div class="col-6">
             <ul>
@@ -328,7 +196,3 @@
         </div>
     </div>
 </div>
-
-
-<!-- </div>
-</div> -->

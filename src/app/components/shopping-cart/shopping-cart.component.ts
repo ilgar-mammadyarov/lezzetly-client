@@ -11,18 +11,23 @@ export class ShoppingCartComponent implements OnInit {
   meals: any;
   mealIds: any;
   uniqueMealIds = [];
+  total = 0;
 
   cartMeals: any;
-  constructor(private mealsService: MealsService) {
+  constructor() {
    }
 
   ngOnInit(): void {
     //this.getMealIds()
     this.getCartMeals()
+    if( this.cartMeals){
+      this.calculateTotal()
+    }
+    
   }
   getCartMeals() {
     this.cartMeals = JSON.parse(localStorage.getItem('cartMeals')) 
-    console.log(this.cartMeals)
+    //console.log(this.cartMeals)
   }
   changeQuantity(id, quantity) {
     let changedMeals = JSON.parse(localStorage.getItem('cartMeals'))
@@ -33,7 +38,7 @@ export class ShoppingCartComponent implements OnInit {
     }
     localStorage.removeItem('cartMeals');
     localStorage.setItem('cartMeals', JSON.stringify(changedMeals))
-    
+    window.location.reload();
   }
   deleteCartMeal(id) {
     let changedMeals = JSON.parse(localStorage.getItem('cartMeals'))
@@ -41,9 +46,20 @@ export class ShoppingCartComponent implements OnInit {
       if(changedMeals[i].id === id) {
         console.log(changedMeals[i])
         changedMeals.splice(changedMeals[i],1)
+        
       }     
     }
+    localStorage.setItem('cartMeals', JSON.stringify(changedMeals))
+    window.location.reload();
     console.log(changedMeals)
+  }
+
+  calculateTotal() {
+    //console.log(this.cartMeals)
+    for(let i=0; i<this.cartMeals.length; i++){
+      this.total += this.cartMeals[i].quantity * this.cartMeals[i].price
+    }
+    //console.log(total)
   }
 
   // getMealIds() {
