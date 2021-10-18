@@ -156,7 +156,7 @@
     <div class="row">
         <div class="col-6">
             <ul>
-                <li *ngFor="let area of courierDeliveryAreas">
+                <li *ngFor="let area of courierDeliveryAreas" [value]="area.area.area_name - area.delivery_price">
                     {{area.area.area_name}} - {{area.delivery_price}}
                 </li>
             </ul>
@@ -180,7 +180,7 @@
 
                 <div class="form-outline">
                     <label class="form-label" for="delivery_price">Price</label>
-                    <input formControlName="delivery_price" type="text" id="delivery_price" class="form-control form-control-lg" />
+                    <input formControlName="delivery_price" type="number" id="delivery_price" class="form-control form-control-lg" />
                     
                     <span class="text-danger"
                     *ngIf="deliveryAreaForm.get('delivery_price').invalid

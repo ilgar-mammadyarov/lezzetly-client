@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { AcoountService } from 'src/app/services/acoount.service';
 import { CookService } from 'src/app/services/cook.service';
 import { DashboardService } from 'src/app/services/dashboard.service';
@@ -16,6 +17,8 @@ export class CookMealsComponent implements OnInit {
   cookId: any;
   errorMsg: any;
   deleteErrMsg: any;
+  userInfo: any;
+
 
   addMealForm: FormGroup;
 
@@ -28,12 +31,14 @@ export class CookMealsComponent implements OnInit {
     private dashboardService: DashboardService,
     private fb: FormBuilder,
     private mealService: MealsService,
-    private cookService: CookService
+    private cookService: CookService,
+    private toastr: ToastrService
     ) { }
 
   ngOnInit(): void {
+    this.userInfo = this.accountService.user
     this.getCurrentUser()
-    //this.getCookMeals()
+    this.getCookMeals()
     this.createAddMealForm()
 
     this.getMealCategories()
@@ -68,7 +73,7 @@ export class CookMealsComponent implements OnInit {
   }
 
   getCookMeals() {
-    this.dashboardService.getCookMeals(this.cookId).subscribe(response => {
+    this.dashboardService.getCookMeals(this.userInfo.id).subscribe(response => {
       this.meals = response
       //console.log(this.meals)
       console.log(response)
@@ -101,28 +106,32 @@ export class CookMealsComponent implements OnInit {
     const token = localStorage.getItem('token');
     //console.log(this.addMealForm.value)
     this.cookService.addMeal(this.addMealForm.value, token).subscribe(response => {
+      this.meals.push(response)
       console.log(response)
+      this.toastr.success("Successfully Added!")
     },error => {
       //console.log(error)
-      this.errorMsg = error.error.message
+      this.toastr.error(error)
     })
   }
 
   deleteMeal(id) {
     this.mealService.deleteMeal(id).subscribe(response => {
-      console.log(response)
+      //console.log(response)
+      this.deleteErrMsg = response
+     this.toastr.warning(response.message)
       this.getCookMeals()
     },error => {
-      console.log(error)
-      // this.deleteErrMsg = error.error.message
-      // console.log(this.deleteErrMsg)
+      this.toastr.error(error)
     })
   }
   changeQuantity(id, quantity) {
     this.cookService.changeQuantuty(id, quantity).subscribe(response => {
-      console.log(response)
+      this.deleteErrMsg = response
+      this.toastr.warning(response.message)
     }, error => {
-      console.log(error)
+      this.toastr.error(error)
+      //console.log(error)
     })
   }
 }

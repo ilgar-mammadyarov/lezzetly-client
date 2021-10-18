@@ -20,7 +20,7 @@ export class CookService {
     //const token = localStorage.getItem('token');
     let headers = new HttpHeaders()
     headers = headers.set('Authorization', `Bearer ${token}`)
-    return this.http.post(environment.baseUrl + 'meal-create/', values, {headers})
+    return this.http.post<any>(environment.baseUrl + 'meal-create/', values, {headers})
     //.pipe(
     //   map((user: any) => {
     //     if(user) {
@@ -38,7 +38,15 @@ export class CookService {
     let body = {
       "stock_quantity": quantity
     }
-    return this.http.patch(environment.baseUrl + 'meals/' + id + '/', body,{headers})
+    return this.http.patch<any>(environment.baseUrl + 'meals/' + id + '/', body,{headers})
+  }
+
+  rejectOrder(orderId, body) {
+    const token = localStorage.getItem('token');
+    let headers = new HttpHeaders()
+    headers = headers.set('Authorization', `Bearer ${token}`)
+    
+    return this.http.patch<any>(environment.baseUrl + 'reject-order/' + orderId + '/', body,{headers})
   }
 
   getCookRecommendationById(cookId) {

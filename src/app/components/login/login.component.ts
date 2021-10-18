@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.accountService.login(this.loginForm.value).subscribe(
       () => {
-        this.router.navigateByUrl(this.returnUrl) // /dashboard
+        this.router.navigateByUrl('/dashboard') // this.returnUrl
       }, err => {
         console.log(err)
       }

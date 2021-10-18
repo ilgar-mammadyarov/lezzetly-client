@@ -11,7 +11,12 @@ import { AcoountService } from 'src/app/services/acoount.service';
 export class NavBarComponent implements OnInit {
   currentUser$: Observable<any>;
   userInfo;
-  constructor(private accountService: AcoountService, private router: Router ) { }
+  //cartItemCount = 0;
+  constructor(private accountService: AcoountService, private router: Router ) { 
+    // this.cartItemCount = JSON.parse(localStorage.getItem('cartItems'))
+    // console.log(this.cartItemCount)
+    // console.log(JSON.parse(localStorage.getItem('cartItems')))
+  }
 
   ngOnInit(): void {
     this.currentUser$ = this.accountService.currentUser$

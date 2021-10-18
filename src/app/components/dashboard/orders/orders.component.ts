@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { AcoountService } from 'src/app/services/acoount.service';
+import { CookService } from 'src/app/services/cook.service';
 import { CourierService } from 'src/app/services/courier.service';
 import { DashboardService } from 'src/app/services/dashboard.service';
 
@@ -16,6 +19,8 @@ export class OrdersComponent implements OnInit {
   //areas = [];
   courierAreas: any;
   selectedOrderId: any;
+  selectedAreaId: any;
+  rejectForm: FormGroup;
 
   testArr: any[] = [];
   obj= {
@@ -29,10 +34,13 @@ export class OrdersComponent implements OnInit {
   closeResult = '';
   constructor(private dashboardService: DashboardService, 
     private accountService: AcoountService, 
-    private modalService: NgbModal) { }
+    private modalService: NgbModal,
+    private toastr: ToastrService,
+    private cookService: CookService) { }
 
   ngOnInit(): void {
     this.userInfo = this.accountService.user;
+    this.createRejectForm()
     if(this.userInfo.user_type == 1) {
       this.getCookOrders()
     }else if(this.userInfo.user_type == 2) {
@@ -47,6 +55,21 @@ export class OrdersComponent implements OnInit {
 
     //this.off()
     //console.log(this.userInfo)
+  }
+
+  createRejectForm() {
+    this.rejectForm = new FormGroup({
+      is_rejected: new FormControl(true, Validators.required),
+      reject_reason: new FormControl('', Validators.required)
+    })
+  }
+  onSubmit() {
+    console.log(this.rejectForm.value)
+    this.cookService.rejectOrder(this.selectedOrderId, this.rejectForm.value).subscribe(response => {
+      this.toastr.warning(response.message)
+    }, error => {
+      this.toastr.error(error)
+    })
   }
 
   getCookOrders() {
@@ -79,7 +102,7 @@ export class OrdersComponent implements OnInit {
   getCouriers() {
     this.dashboardService.getCouriers().subscribe(response =>{
       this.couriers = response 
-    // console.log(response)
+      console.log(response)
     }, error => {
       console.log(error)
     })
@@ -107,10 +130,12 @@ export class OrdersComponent implements OnInit {
 
   addCourier(courierId) {
     const body = {
-      "courier": +courierId
+      "courier": +courierId,
+      "delivery_information": this.selectedAreaId
     }
     this.dashboardService.addCourier(this.selectedOrderId, body).subscribe(response =>{
-     // console.log(response)  
+     console.log(response)  
+     this.toastr.warning(response.message)
     }, error => {
      console.log(error)
     })
@@ -118,7 +143,7 @@ export class OrdersComponent implements OnInit {
   }
 
   testt(test){
-    console.log(test)
+    this.selectedAreaId = test;
   }
 
 
@@ -127,6 +152,10 @@ export class OrdersComponent implements OnInit {
     this.modalService.open(content, { size: 'xl' });
     this.selectedOrderId = orderId
 
+  }
+  openRejectForm(rejectFormModal, orderId) {
+    this.modalService.open(rejectFormModal, { size: 'md' });
+    this.selectedOrderId = orderId
   }
 
   private getDismissReason(reason: any): string {

@@ -22,6 +22,6 @@ export class CourierService {
     let headers = new HttpHeaders()
     headers = headers.set('Authorization', `Bearer ${token}`)
     console.log(token)
-    return this.http.post(environment.baseUrl + 'couriers/' + courierId + '/deliveryareas/', body)
+    return this.http.post(environment.baseUrl + 'couriers/' + courierId + '/deliveryareas/', body, {headers})
   }
 }

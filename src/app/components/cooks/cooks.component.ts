@@ -5,6 +5,7 @@ import { CookService } from 'src/app/services/cook.service';
 import { MealsService } from 'src/app/services/meals.service';
 import { map } from 'rxjs/operators';
 import { toUnicode } from 'punycode';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cooks',
@@ -23,7 +24,8 @@ export class CooksComponent implements OnInit {
 
   constructor(private cookService: CookService,
     private mealService: MealsService,
-    private activatedRoute: ActivatedRoute) { }
+    private activatedRoute: ActivatedRoute,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     // this.getCookById();
@@ -64,6 +66,7 @@ export class CooksComponent implements OnInit {
       this.cartMeals.push(this.cartMeal)
       localStorage.setItem('cartMeals', JSON.stringify(this.cartMeals))
       window.location.reload();
+      //this.toastr.success("Successfully Added!")
     } 
     else {
       
@@ -83,7 +86,8 @@ export class CooksComponent implements OnInit {
       this.cartMeals.push(this.cartMeal)
       localStorage.setItem('cartMeals', JSON.stringify(this.cartMeals))
       window.location.reload();
-      console.log(this.cartMeals)
+      //this.toastr.success("Successfully Added!")
+      //console.log(this.cartMeals)
     }
     //console.log(meal)
   }

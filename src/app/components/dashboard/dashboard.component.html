@@ -32,7 +32,7 @@
               </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" (click)="logout()">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                   Log out
                 </a>
@@ -95,11 +95,11 @@
                 <th scope="col">ID</th>
                 <th scope="col">Meal&Quantity</th>
                 <th scope="col">Total</th>
-                <th scope="col">Add Courier</th>
+                <!-- <th scope="col"></th> -->
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let order of activeOrders">
+              <tr *ngFor="let order of activeOrders" (dblclick)="open(content, order)">
                 <th scope="row">{{order.id}}</th>
                 <th scope="row">
                   <select name="" id="">
@@ -109,6 +109,7 @@
                   </select>
                 </th>
                 <th scope="row">${{order.order_total}}</th>
+                <!-- <th><button class="btn btn-primary">Add Courier</button></th> -->
                 <!-- <td>{{order.cook.first_name}} {{order.cook.last_name}}</td>
                 <td>{{order.customer_first_name}} {{order.customer_last_name}}</td>
                 <td>{{order.customer_phone}}</td> -->
@@ -121,3 +122,49 @@
       </main>
     </div>
   </div>
+
+
+
+  <!-- (click)="open(content, { size: 'xl' })" -->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Order Info</h4>
+    <button type="button" class="close btn btn-primary" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Customer Name</th>
+          <th scope="col">Complete</th>
+          <!-- <th scope="col">Area</th> -->
+          <!-- <th scope="col"></th> -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr >
+          <th scope="row">{{selectedOrder.id}}</th>
+          <td>{{selectedOrder.customer_first_name}} {{selectedOrder.customer_last_name}}</td>
+          <td>{{selectedOrder.complete}}</td>
+          <!-- <td>
+            <select name="" id="" >
+              <option value="" *ngFor="let area of courierAreas"><span *ngIf="courier.id == area.courier">{{area.delivery_price}}</span></option>
+            </select>
+          </td> -->
+          <!-- <td>
+            <select name="" id="" >
+              <option value="" selected disabled>Choose</option>
+              <option [value]="" ><span></span></option>
+            </select>
+          </td> -->
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">Close</button>
+  </div> -->
+</ng-template>

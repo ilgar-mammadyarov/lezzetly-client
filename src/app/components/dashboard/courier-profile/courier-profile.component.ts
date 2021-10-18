@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AcoountService } from 'src/app/services/acoount.service';
 import { CookService } from 'src/app/services/cook.service';
 import { CourierService } from 'src/app/services/courier.service';
@@ -26,6 +27,7 @@ export class CourierProfileComponent implements OnInit {
   resumes: any;
   deliveryAreas: any;
   courierDeliveryAreas: any;
+  dynamicTest 
 
 
   constructor(
@@ -33,7 +35,8 @@ export class CourierProfileComponent implements OnInit {
     private router: Router,
     private cookService: CookService,
     private dashboardService: DashboardService,
-    private courierService: CourierService) {}
+    private courierService: CourierService,
+    private toastr: ToastrService) {}
 
   ngOnInit(): void {
    
@@ -42,7 +45,6 @@ export class CourierProfileComponent implements OnInit {
     
     
     this.findMyLocation()
-      this.userInfo.user_type==2
       this.createCourierForm();
       this.createDeliveryAreaForm();
       this.getCourierDeliveryAreasById()
@@ -141,35 +143,39 @@ export class CourierProfileComponent implements OnInit {
   getDeliverAreas() {
     this.dashboardService.getDeliveryAreas().subscribe(response =>{
       this.deliveryAreas = response
-      console.log(response)
+      //console.log(response)
     }, error => {
-      console.log(error)
+     // console.log(error)
     })
   }
 
   onCourierSubmit() {
     const token = localStorage.getItem('token');
-    console.log(this.updateCourierForm.value)
+    // console.log(this.updateCourierForm.value)
     this.accountService.updateCourierProfile(this.updateCourierForm.value, this.userInfo.id, token).subscribe(response => {
-      console.log(response)
-      this.router.navigateByUrl('/profile');
+      this.toastr.success('Updated Succesfully!')
+      this.router.navigateByUrl('/courier-profile');
     }, error => {
-      console.log(error);
-      this.errors = error.errors;
+      //console.log(error);
+     // this.errors = error.errors;
     })
   }
 
   onDeliveryAreaFormSubmit() {
     console.log(this.deliveryAreaForm.value)
     this.dashboardService.postDeliveryArea(this.userInfo.id, this.deliveryAreaForm.value).subscribe(response => {
-     // console.log(response)
+     console.log(response)
+     response.area =this.deliveryAreas.find(d=>d.id===response.area)
+     
+     this.courierDeliveryAreas = [...this.courierDeliveryAreas,response]
+
     }, error => {
      console.log(error)
     })
   }
 
   getCourierDeliveryAreasById() {
-    this.courierService.getCourierDeliveryAreasById(this.userInfo.id).subscribe(response =>{
+    this.dashboardService.getCourierDeliveryAreasById(this.userInfo.id).subscribe(response =>{
       this.courierDeliveryAreas = response
       console.log(response)
     }, error => {

@@ -14,7 +14,7 @@ export class AcoountService {
 
   private currentUserSource = new BehaviorSubject<any>(null);
   currentUser$ = this.currentUserSource.asObservable();
-
+  
   user = {
     user_type: '',
     name: '',
@@ -65,7 +65,15 @@ export class AcoountService {
     let headers = new HttpHeaders()
     headers = headers.set('Authorization', `Bearer ${token}`)
 
-    return this.http.get(environment.baseUrl + 'user', {headers});
+    return this.http.get(environment.baseUrl + 'user/', {headers});
+  }
+
+  loadUserByToken() {
+    const token = localStorage.getItem('token');
+    let headers = new HttpHeaders()
+    headers = headers.set('Authorization', `Bearer ${token}`)
+
+    return this.http.get(environment.baseUrl + 'user/', {headers});
   }
 
 
@@ -105,27 +113,33 @@ export class AcoountService {
   updateCookProfile(values: any, id: any, token: any) {
     let headers = new HttpHeaders()
     headers = headers.set('Authorization', `Bearer ${token}`)
-    return this.http.put(environment.baseUrl + 'cooks/' + id, values, {headers}).pipe(
-      map((user: any) => {
-        if(user) {
-          localStorage.setItem('token', user.token);
-          this.currentUserSource.next(user);
-        }
-      })
-    )
+    return this.http.put(environment.baseUrl + 'cooks/' + id, values, {headers})
+    // .pipe(
+    //   map((user: any) => {
+    //     if(user) {
+    //       console.log(user.token)
+    //       localStorage.setItem('token', user.token);
+    //       this.currentUserSource.next(user);
+    //     }
+    //   })
+    // )
   } 
 
-  updateCourierProfile(values, id, token) {
+  updateCourierProfile(values: any, id: any, token: any) {
+    //const token = localStorage.getItem('token');
     let headers = new HttpHeaders()
     headers = headers.set('Authorization', `Bearer ${token}`)
-    return this.http.put(environment.baseUrl + 'couriers/' + id , values, {headers}).pipe(
-      map((user: any) => {
-        if(user) {
-          localStorage.setItem('token', user.token);
-          this.currentUserSource.next(user);
-        }
-      })
-    )
+    return this.http.put<any>(environment.baseUrl + 'couriers/' + id + '/', values, {headers})
+    // .pipe(
+    //   map((user: any) => {
+    //     if(user) {
+    //       console.log('test')
+    //       console.log(user.token)
+    //       localStorage.setItem('token', user.token);
+    //       this.currentUserSource.next(user);
+    //     }
+    //   })
+    // )
   }
 
   logout() {

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AcoountService } from 'src/app/services/acoount.service';
 import { DashboardService } from 'src/app/services/dashboard.service';
-
+import { map } from 'rxjs/operators'
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -10,8 +11,11 @@ import { DashboardService } from 'src/app/services/dashboard.service';
 export class DashboardComponent implements OnInit {
   userInfo: any;
   activeOrders: any;
+  selectedOrder: any;
 
-  constructor(private accountService: AcoountService, private dashboardService: DashboardService) { }
+  constructor(private accountService: AcoountService, 
+    private dashboardService: DashboardService,
+    private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.userInfo = this.accountService.user;
@@ -46,5 +50,16 @@ export class DashboardComponent implements OnInit {
       console.log(error)
     })
   }
+
+  logout() {
+    this.accountService.logout();
+  }
+
+  open(content , order) {
+    this.modalService.open(content, { size: 'xl' });
+    this.selectedOrder = order
+    console.log(order)
+  }
+  
 
 }

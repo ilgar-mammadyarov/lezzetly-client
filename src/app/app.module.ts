@@ -5,6 +5,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+
 
 
 import { AppComponent } from './app.component';
@@ -56,7 +59,9 @@ import { CourierProfileComponent } from './components/dashboard/courier-profile/
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbModule
+    NgbModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
     //ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production})
   ],
   providers: [MealsService,AcoountService,CookService, CourierService],

@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnChanges, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AcoountService } from 'src/app/services/acoount.service';
 import { CookService } from 'src/app/services/cook.service';
 import { CourierService } from 'src/app/services/courier.service';
@@ -37,7 +38,8 @@ export class ProfileComponent implements OnInit {
     private router: Router,
     private cookService: CookService,
     private dashboardService: DashboardService,
-    private courierService: CourierService) {}
+    private courierService: CourierService,
+    private toastr: ToastrService) {}
 
   ngOnInit(): void {
    
@@ -52,12 +54,13 @@ export class ProfileComponent implements OnInit {
       this.createResumeForm()
       this.getCookRecommedationById()
       this.getCookResumeById()
-    }else if (this.userInfo.user_type==2) {
-      this.createCourierForm();
-      this.createDeliveryAreaForm();
-  //    this.getCourierDeliveryAreasById()
-      this.getDeliverAreas()
-    } 
+    }
+  //   else if (this.userInfo.user_type==2) {
+  //     this.createCourierForm();
+  //     this.createDeliveryAreaForm();
+  // //    this.getCourierDeliveryAreasById()
+  //     this.getDeliverAreas()
+  //   } 
     //this.initMap()
   }
 
@@ -121,24 +124,24 @@ export class ProfileComponent implements OnInit {
   }
 
 
-  createCourierForm() {
-    this.updateCourierForm = new FormGroup({
-      first_name: new FormControl(this.userInfo.name, Validators.required),
-      last_name: new FormControl(this.userInfo.surname, Validators.required),
-      patronymic: new FormControl('', Validators.required),
-      phone: new FormControl('', Validators.required),
-      location: new FormControl('', Validators.required),
-      transport: new FormControl('', Validators.required),
-     // deliveryArea: new FormControl('', Validators.required),
-      work_experience: new FormControl('', Validators.required),
-      //customer_location: new FormControl(this.selLatLng),
-      email: new FormControl(this.userInfo.mail, [Validators.required, Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')]),
-      // complete: new FormControl('', Validators.required),
-      is_available: new FormControl(false, Validators.required),
-      //order_items: new FormControl([], Validators.required)
-      // order_items: new FormControl(this.mealItems)
-    })
-  }
+  // createCourierForm() {
+  //   this.updateCourierForm = new FormGroup({
+  //     first_name: new FormControl(this.userInfo.name, Validators.required),
+  //     last_name: new FormControl(this.userInfo.surname, Validators.required),
+  //     patronymic: new FormControl('', Validators.required),
+  //     phone: new FormControl('', Validators.required),
+  //     location: new FormControl('', Validators.required),
+  //     transport: new FormControl('', Validators.required),
+  //    // deliveryArea: new FormControl('', Validators.required),
+  //     work_experience: new FormControl('', Validators.required),
+  //     //customer_location: new FormControl(this.selLatLng),
+  //     email: new FormControl(this.userInfo.mail, [Validators.required, Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')]),
+  //     // complete: new FormControl('', Validators.required),
+  //     is_available: new FormControl(false, Validators.required),
+  //     //order_items: new FormControl([], Validators.required)
+  //     // order_items: new FormControl(this.mealItems)
+  //   })
+  // }
 
   createRecomForm() {
     this.recomForm = new FormGroup({
@@ -153,12 +156,12 @@ export class ProfileComponent implements OnInit {
     })
   }
 
-  createDeliveryAreaForm() {
-    this.deliveryAreaForm = new FormGroup({
-      area: new FormControl('', Validators.required),
-      delivery_price: new FormControl('', Validators.required)
-    })
-  }
+  // createDeliveryAreaForm() {
+  //   this.deliveryAreaForm = new FormGroup({
+  //     area: new FormControl('', Validators.required),
+  //     delivery_price: new FormControl('', Validators.required)
+  //   })
+  // }
 
 
   getCurrentUser() {
@@ -179,6 +182,8 @@ export class ProfileComponent implements OnInit {
     const token = localStorage.getItem('token');
     console.log(this.updateRegisterForm.value)
     this.accountService.updateCookProfile(this.updateRegisterForm.value, this.user.id, token).subscribe(response => {
+      console.log(response)
+      this.toastr.success('Updated Succesfully')
       this.router.navigateByUrl('/profile');
     }, error => {
       console.log(error);
@@ -188,26 +193,26 @@ export class ProfileComponent implements OnInit {
 
 
 
-  getDeliverAreas() {
-    this.dashboardService.getDeliveryAreas().subscribe(response =>{
-      this.deliveryAreas = response
-      console.log(response)
-    }, error => {
-      console.log(error)
-    })
-  }
+  // getDeliverAreas() {
+  //   this.dashboardService.getDeliveryAreas().subscribe(response =>{
+  //     this.deliveryAreas = response
+  //     console.log(response)
+  //   }, error => {
+  //     console.log(error)
+  //   })
+  // }
 
-  onCourierSubmit() {
-    const token = localStorage.getItem('token');
-    console.log(this.updateCourierForm.value)
-    this.accountService.updateCourierProfile(this.updateCourierForm.value, this.userInfo.id, token).subscribe(response => {
-      console.log(response)
-      this.router.navigateByUrl('/profile');
-    }, error => {
-      console.log(error);
-      this.errors = error.errors;
-    })
-  }
+  // onCourierSubmit() {
+  //   const token = localStorage.getItem('token');
+  //   console.log(this.updateCourierForm.value)
+  //   this.accountService.updateCourierProfile(this.updateCourierForm.value, this.userInfo.id).subscribe(response => {
+  //     console.log(response)
+  //     this.router.navigateByUrl('/profile');
+  //   }, error => {
+  //     console.log(error);
+  //     this.errors = error.errors;
+  //   })
+  // }
 
   getCookRecommedationById() {
     this.cookService.getCookRecommendationById(this.userInfo.id).subscribe(response =>{
@@ -222,6 +227,7 @@ export class ProfileComponent implements OnInit {
 
     this.cookService.postRecommendationByCookId(this.userInfo.id, this.recomForm.value).subscribe(response => {
     //  console.log(response)
+    this.recommendations.push(response)
     }, error => {
     //  console.log(error)
     })
@@ -239,19 +245,20 @@ export class ProfileComponent implements OnInit {
     //console.log(this.resumeForm.value)
     this.cookService.postResumeByCookId(this.userInfo.id, this.resumeForm.value).subscribe(response =>{
       console.log(response)
+      this.resumes.push(response)
     }, error => {
       console.log(error)
     })
   }
 
-  onDeliveryAreaFormSubmit() {
-    console.log(this.deliveryAreaForm.value)
-    this.dashboardService.postDeliveryArea(this.userInfo.id, this.deliveryAreaForm.value).subscribe(response => {
-     // console.log(response)
-    }, error => {
-     console.log(error)
-    })
-  }
+  // onDeliveryAreaFormSubmit() {
+  //   console.log(this.deliveryAreaForm.value)
+  //   this.dashboardService.postDeliveryArea(this.userInfo.id, this.deliveryAreaForm.value).subscribe(response => {
+  //    // console.log(response)
+  //   }, error => {
+  //    console.log(error)
+  //   })
+  // }
 
 
   // getCourierDeliveryAreasById() {

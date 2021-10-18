@@ -34,7 +34,7 @@ export class MealsService {
     const token = localStorage.getItem('token');
     let headers = new HttpHeaders()
     headers = headers.set('Authorization', `Bearer ${token}`)
-    return this.http.delete(environment.baseUrl + 'meals/' + id, {headers});
+    return this.http.delete<any>(environment.baseUrl + 'meals/' + id, {headers});
   }
 
   changeMealQuantity(id) {
@@ -43,7 +43,7 @@ export class MealsService {
 
 
   postOrder(body) {
-    return this.http.post(environment.baseUrl + 'order-create/', body);
+    return this.http.post<any>(environment.baseUrl + 'order-create/', body);
   }
   //
   // getMealsWithSelectedCategory(selectedCategory) {
