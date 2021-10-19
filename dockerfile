@@ -6,7 +6,7 @@ COPY package.json package-lock.json ./
 RUN npm install
 
 COPY . ./
-RUN ng build --prod
+RUN ng build
 
 FROM nginx:1.17-alpine
 COPY nginx.config /etc/nginx/conf.d/default.conf
