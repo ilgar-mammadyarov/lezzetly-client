@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  sport-app:
+  lezzetli-app:
     container_name: lezzetli-front
     build:
       context: .
