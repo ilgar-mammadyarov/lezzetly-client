@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="userInfo.user_type==1">
   <table class="table">
     <thead>
       <tr>
@@ -24,12 +24,41 @@
           </select></td>
         <!-- <td><select name="" id=""><option value="" *ngFor="let item of order.items">{{item.quantity}}</option></select></td> -->
         <!-- <td>{{order.items}}</td> -->
-        <td *ngIf="userInfo.user_type==1"><button class="btn btn-danger" (click)="openRejectForm(rejectFormModal, order.id)">Reject</button></td>
-        <td>{{order.complete}}</td>
+        <td *ngIf="userInfo.user_type==1"><button class="btn btn-danger"
+            (click)="openRejectForm(rejectFormModal, order.id)">Reject</button></td>
+        <td *ngIf="userInfo.user_type==1"><button (click)="completeOrder(order.id)" class="btn btn-success">Complete</button></td>
         <td *ngIf="userInfo.user_type==1">
-          <button class="btn btn-primary" *ngIf="!order.is_rejected" (click)="open(content, order.id)">Find Courier</button>
-          <button class="btn btn-secondary"  *ngIf="order.is_rejected">Rejected</button>
+          <button class="btn btn-primary" *ngIf="!order.is_rejected" (click)="open(content, order.id)">Find
+            Courier</button>
+          <button class="btn btn-secondary" *ngIf="order.is_rejected">Rejected</button>
         </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="userInfo.user_type==2">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Cook</th>
+        <th scope="col">Cook Ph</th>
+        <th scope="col">Client</th>
+        <th scope="col">Client Ph</th>
+        <th scope="col" >Total</th>
+        <th scope="col">Completed</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of courierOrders">
+        <td>{{order.id}}</td>
+        <td>{{order.cook.first_name}} </td>
+        <td>{{order.cook.phone}}</td>
+        <td>{{order.customer_first_name}} {{order.customer_last_name}} </td>
+        <td>{{order.customer_phone}}</td>
+        <td>{{order.order_total}}</td>
+        <td>{{order.complete}}</td>
       </tr>
     </tbody>
   </table>
@@ -38,52 +67,52 @@
 
 
 
+    <!-- <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button> -->
 
-<!-- <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button> -->
-
-<!-- (click)="open(content, { size: 'xl' })" -->
-<ng-template #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
-    <button type="button" class="close btn btn-primary" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Name</th>
-          <th scope="col">Area - Price</th>
-          <!-- <th scope="col">Area</th> -->
-          <th scope="col">Choose</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let courier of couriers">
-          <th scope="row">{{courier.id}}</th>
-          <td>{{courier.first_name}} {{courier.last_name}}</td>
-          <!-- <td>
+    <!-- (click)="open(content, { size: 'xl' })" -->
+    <ng-template #content let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+        <button type="button" class="close btn btn-primary" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Name</th>
+              <th scope="col">Area - Price</th>
+              <!-- <th scope="col">Area</th> -->
+              <th scope="col">Choose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let courier of couriers">
+              <th scope="row">{{courier.id}}</th>
+              <td>{{courier.first_name}} {{courier.last_name}}</td>
+              <!-- <td>
             <select name="" id="" >
               <option value="" *ngFor="let area of courierAreas"><span *ngIf="courier.id == area.courier">{{area.delivery_price}}</span></option>
             </select>
           </td> -->
-          <td>
-            <select name="" id="" (change)="testt($event.target.value)">
-              <option value="" selected disabled>Choose</option>
-              <option [value]="area.area.id" *ngFor="let area of courier.delivery_areas"><span>{{area.area.area_name}} - {{area.delivery_price}}</span></option>
-            </select>
-          </td>
-          <td><button class="btn btn-primary" (click)="addCourier(courier.id)">Add</button></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <!-- <div class="modal-footer">
+              <td>
+                <select name="" id="" (change)="testt($event.target.value)">
+                  <option value="" selected disabled>Choose</option>
+                  <option [value]="area.area.id" *ngFor="let area of courier.delivery_areas">
+                    <span>{{area.area.area_name}} - {{area.delivery_price}}</span></option>
+                </select>
+              </td>
+              <td><button class="btn btn-primary" (click)="addCourier(courier.id)">Add</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- <div class="modal-footer">
     <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">Close</button>
   </div> -->
-</ng-template>
+    </ng-template>
 
 
 
@@ -92,37 +121,37 @@
 
 
 
-<ng-template #rejectFormModal let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Reject Order</h4>
-    <button type="button" class="close btn btn-primary" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <form [formGroup]="rejectForm"  (ngSubmit)="onSubmit()">
-      <div class="row">
-        <div class="col-md-6 mb-4 pb-2">
-          <div class="form-outline">
-            <textarea formControlName="reject_reason" rows="4" cols="50" type="text" id="reject_reason" class="form-control form-control-lg"></textarea>
-            <label class="form-label" for="reject_reason">Reject reason</label>
-            <span class="text-danger"
-            *ngIf="rejectForm.get('reject_reason').invalid
+    <ng-template #rejectFormModal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Reject Order</h4>
+        <button type="button" class="close btn btn-primary" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="rejectForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-md-6 mb-4 pb-2">
+              <div class="form-outline">
+                <textarea formControlName="reject_reason" rows="4" cols="50" type="text" id="reject_reason"
+                  class="form-control form-control-lg"></textarea>
+                <label class="form-label" for="reject_reason">Reject reason</label>
+                <span class="text-danger" *ngIf="rejectForm.get('reject_reason').invalid
             && rejectForm.get('reject_reason').touched
             && rejectForm.get('reject_reason').errors['required']">
-            Reject reason is required
-            </span>
+                  Reject reason is required
+                </span>
+              </div>
+            </div>
           </div>
-        </div>
+          <div class="mt-4 pt-2">
+            <input [disabled]="rejectForm.invalid" class="btn btn-primary btn-lg" type="submit" value="Submit" />
+          </div>
+        </form>
       </div>
-      <div class="mt-4 pt-2">
-        <input [disabled]="rejectForm.invalid" class="btn btn-primary btn-lg" type="submit" value="Submit" />
-      </div> 
-    </form>
-  </div>
-  <!-- <div class="modal-footer">
+      <!-- <div class="modal-footer">
     <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">Close</button>
   </div> -->
-</ng-template>
+    </ng-template>
 
-<!-- <button (click)="off()">Click me</button> -->
+    <!-- <button (click)="off()">Click me</button> -->

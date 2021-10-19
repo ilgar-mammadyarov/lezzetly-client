@@ -107,8 +107,8 @@ export class CookMealsComponent implements OnInit {
     //console.log(this.addMealForm.value)
     this.cookService.addMeal(this.addMealForm.value, token).subscribe(response => {
       this.meals.push(response)
-      console.log(response)
-      this.toastr.success("Successfully Added!")
+      //console.log(response)
+      this.toastr.warning(response.message)
     },error => {
       //console.log(error)
       this.toastr.error(error)

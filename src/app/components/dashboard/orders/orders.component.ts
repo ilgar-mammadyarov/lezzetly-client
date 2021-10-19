@@ -14,6 +14,7 @@ import { DashboardService } from 'src/app/services/dashboard.service';
 })
 export class OrdersComponent implements OnInit {
   orders: any;
+  courierOrders: any;
   userInfo: any;
   couriers: any;
   //areas = [];
@@ -85,6 +86,7 @@ export class OrdersComponent implements OnInit {
   getCourierActiveOrders() {
     this.dashboardService.getCourierActiveOrders(this.userInfo.id).subscribe(response => {
      // console.log(response)
+    //  this.courierOrders = response;
     }, error => {
       console.log(error)
     })
@@ -93,6 +95,7 @@ export class OrdersComponent implements OnInit {
   getCourierOrders() {
     this.dashboardService.getCourierOrders(this.userInfo.id).subscribe(response => {
       console.log(response)
+      this.courierOrders = response;
     }, error => {
       console.log(error)
     })
@@ -102,7 +105,7 @@ export class OrdersComponent implements OnInit {
   getCouriers() {
     this.dashboardService.getCouriers().subscribe(response =>{
       this.couriers = response 
-      console.log(response)
+      //console.log(response)
     }, error => {
       console.log(error)
     })
@@ -193,5 +196,11 @@ export class OrdersComponent implements OnInit {
   //   // console.log(" hayda")
   //    console.log( this.testArr)
   // }
-
+  completeOrder(orderId) {
+    this.cookService.completeOrder(orderId).subscribe(response => {
+      this.toastr.warning(response.message)
+    }, error => {
+      console.log(error)
+    })
+  }
 }

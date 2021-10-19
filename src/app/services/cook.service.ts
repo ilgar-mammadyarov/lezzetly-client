@@ -49,6 +49,16 @@ export class CookService {
     return this.http.patch<any>(environment.baseUrl + 'reject-order/' + orderId + '/', body,{headers})
   }
 
+  completeOrder(orderId) {
+    const token = localStorage.getItem('token');
+    let headers = new HttpHeaders()
+    headers = headers.set('Authorization', `Bearer ${token}`)
+    let body = {
+      "complete": true 
+    }
+    return this.http.patch<any>(environment.baseUrl + 'complete-order/' + orderId + '/', body,{headers})
+  }
+
   getCookRecommendationById(cookId) {
     const token = localStorage.getItem('token');
     let headers = new HttpHeaders()

@@ -1,60 +1,79 @@
-<div class="container px-3 my-5 clearfix">
+<div class="container px-3 my-5 clearfix" *ngIf="cartMeals.length > 0">
   <!-- Shopping cart table -->
   <div class="card">
-      <div class="card-header">
-          <h2>Shopping Cart</h2>
+    <div class="card-header">
+      <h2>Shopping Cart</h2>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered m-0">
+          <thead>
+            <tr>
+              <!-- Set columns width -->
+              <th class="text-center py-3 px-4" style="min-width: 400px;">Product Name &amp; Details</th>
+              <th class="text-right py-3 px-4" style="width: 100px;">Price</th>
+              <th class="text-center py-3 px-4" style="width: 120px;">Quantity</th>
+              <th class="text-right py-3 px-4" style="width: 100px;">Total</th>
+              <th class="text-center align-middle py-3 px-0" style="width: 40px;"><a href="#"
+                  class="shop-tooltip float-none text-light" title="" data-original-title="Clear cart"><i
+                    class="ino ion-md-trash"></i></a></th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr *ngFor="let cartMeal of cartMeals; let i = index">
+              <td class="p-4">
+                <div class="media align-items-center">
+                  <div class="media-body">
+                    <a href="#" class="d-block text-dark">{{cartMeal.title}}</a>
+                  </div>
+                </div>
+              </td>
+              <td class="text-right font-weight-semibold align-middle p-4">${{cartMeal.price}}</td>
+              <!-- <td class="align-middle p-4"><input type="number" min="0"
+                  (keyup.enter)="changeQuantity(cartMeal.id, $any($event.target).value)" [(ngModel)]="cartMeal.quantity"
+                  class="form-control text-center" placeholder="{{cartMeal.quantity}}"></td> -->
+              <td class="align-middle p-4"><input type="number" min="0"
+                  (keyup.enter)="validateInput(i, $event)" 
+                  class="form-control text-center" [value]="cartMeal.quantity"></td>
+              <td class="text-right font-weight-semibold align-middle p-4">${{cartMeal.price*cartMeal.quantity}}</td>
+              <td class="text-center align-middle px-0"><a (click)="deleteCartMeal(i)"
+                  class="shop-tooltip close float-none text-danger" style="font-weight: bold;">X</a></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-bordered m-0">
-              <thead>
-                <tr>
-                  <!-- Set columns width -->
-                  <th class="text-center py-3 px-4" style="min-width: 400px;">Product Name &amp; Details</th>
-                  <th class="text-right py-3 px-4" style="width: 100px;">Price</th>
-                  <th class="text-center py-3 px-4" style="width: 120px;">Quantity</th>
-                  <th class="text-right py-3 px-4" style="width: 100px;">Total</th>
-                  <th class="text-center align-middle py-3 px-0" style="width: 40px;"><a href="#" class="shop-tooltip float-none text-light" title="" data-original-title="Clear cart"><i class="ino ion-md-trash"></i></a></th>
-                </tr>
-              </thead>
-              <tbody>
-      
-                <tr *ngFor="let cartMeal of cartMeals">
-                  <td class="p-4">
-                    <div class="media align-items-center">
-                      <div class="media-body">
-                        <a href="#" class="d-block text-dark">{{cartMeal.title}}</a>
-                      </div>
-                    </div>
-                  </td>
-                  <td class="text-right font-weight-semibold align-middle p-4">${{cartMeal.price}}</td>
-                  <td class="align-middle p-4"><input type="number" min="0" (keyup.enter)="changeQuantity(cartMeal.id, $any($event.target).value)" [(ngModel)]="cartMeal.quantity" class="form-control text-center" placeholder="{{cartMeal.quantity}}"></td>
-                  <td class="text-right font-weight-semibold align-middle p-4">${{cartMeal.price*cartMeal.quantity}}</td>
-                  <td class="text-center align-middle px-0"><a (click)="deleteCartMeal(cartMeal.id)" class="shop-tooltip close float-none text-danger" style="font-weight: bold;" >X</a></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <!-- / Shopping cart table -->
-      
-          <div class="d-flex flex-wrap justify-content-between align-items-center pb-4">
-            <!-- <div class="mt-4">
+      <!-- / Shopping cart table -->
+
+      <div class="d-flex flex-wrap justify-content-between align-items-center pb-4">
+        <!-- <div class="mt-4">
               <label class="text-muted font-weight-normal">Promocode</label>
               <input type="text" placeholder="ABC" class="form-control">
             </div> -->
-            <div class="d-flex">
-              <div class="text-right mt-4">
-                <label class="text-muted font-weight-normal m-0">Total price</label>
-                <div class="text-large"><strong>{{total}}</strong></div>
-              </div>
-            </div>
+        <div class="d-flex">
+          <div class="text-right mt-4">
+            <label class="text-muted font-weight-normal m-0">Total price</label>
+            <div class="text-large"><strong>{{total}}</strong></div>
           </div>
-      
-          <div class="float-right">
-            <button routerLink="/shop" type="button" class="btn btn-lg btn-default md-btn-flat mt-2 mr-3">Back to shopping</button>
-            <button *ngIf="cartMeals" routerLink="/checkout" type="button" class="btn btn-lg btn-primary mt-2">Checkout</button>
-          </div>
-      
         </div>
+      </div>
+
+      <div class="float-right">
+        <button routerLink="/shop" type="button" class="btn btn-lg btn-default md-btn-flat mt-2 mr-3">Back to
+          shopping</button>
+        <button *ngIf="cartMeals" routerLink="/checkout" type="button"
+          class="btn btn-lg btn-primary mt-2">Checkout</button>
+      </div>
+
     </div>
+  </div>
+</div>
+
+<div class="container" *ngIf="cartMeals.length < 1">
+  <div class="row">
+    <div class="col-4">
+      <h1 class="text-danger">You dont have any meal in the cart!!!</h1>
+      <button routerLink="/home" class="btn btn-primary">Go to SHOPPING!</button>
+    </div>
+  </div>
 </div>

@@ -6,6 +6,7 @@ import { MealsService } from 'src/app/services/meals.service';
 import { map } from 'rxjs/operators';
 import { toUnicode } from 'punycode';
 import { ToastrService } from 'ngx-toastr';
+import { CartService } from 'src/app/services/cart.service';
 
 @Component({
   selector: 'app-cooks',
@@ -25,7 +26,8 @@ export class CooksComponent implements OnInit {
   constructor(private cookService: CookService,
     private mealService: MealsService,
     private activatedRoute: ActivatedRoute,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private cartService: CartService) { }
 
   ngOnInit(): void {
     // this.getCookById();
@@ -54,42 +56,46 @@ export class CooksComponent implements OnInit {
   }
 
 
-  addToCart(meal) {
-    this.cartMeal = {
-      id: meal.id,
-      cookId: meal.cook.id,
-      title: meal.title,
-      price: meal.price,
-      quantity: 1
-    }
-    if (JSON.parse(localStorage.getItem('cartMeals')) === null) {
-      this.cartMeals.push(this.cartMeal)
-      localStorage.setItem('cartMeals', JSON.stringify(this.cartMeals))
-      window.location.reload();
-      //this.toastr.success("Successfully Added!")
-    } 
-    else {
+  // addToCart(meal) {
+  //   this.cartMeal = {
+  //     id: meal.id,
+  //     cookId: meal.cook.id,
+  //     title: meal.title,
+  //     price: meal.price,
+  //     quantity: 1
+  //   }
+  //   if (JSON.parse(localStorage.getItem('cartMeals')) === null) {
+  //     this.cartMeals.push(this.cartMeal)
+  //     localStorage.setItem('cartMeals', JSON.stringify(this.cartMeals))
+  //     window.location.reload();
+  //     //this.toastr.success("Successfully Added!")
+  //   } 
+  //   else {
       
-      const localItems = JSON.parse(localStorage.getItem('cartMeals'))
-        for(let i=0; i<localItems.length; i++) {
-          if(localItems[i].id == this.cartMeal.cookId) {
-            return console.log('meals from different users!s')
-          }
-        }
-      localItems.map(data => {
-        if (data.id == this.cartMeal.id) {
-          this.cartMeal.quantity = data.quantity + 1;
-        } else {
-          this.cartMeals.push(data)
-        }
-      })
-      this.cartMeals.push(this.cartMeal)
-      localStorage.setItem('cartMeals', JSON.stringify(this.cartMeals))
-      window.location.reload();
-      //this.toastr.success("Successfully Added!")
-      //console.log(this.cartMeals)
-    }
-    //console.log(meal)
+  //     const localItems = JSON.parse(localStorage.getItem('cartMeals'))
+  //       for(let i=0; i<localItems.length; i++) {
+  //         if(localItems[i].id == this.cartMeal.cookId) {
+  //           return console.log('meals from different users!s')
+  //         }
+  //       }
+  //     localItems.map(data => {
+  //       if (data.id == this.cartMeal.id) {
+  //         this.cartMeal.quantity = data.quantity + 1;
+  //       } else {
+  //         this.cartMeals.push(data)
+  //       }
+  //     })
+  //     this.cartMeals.push(this.cartMeal)
+  //     localStorage.setItem('cartMeals', JSON.stringify(this.cartMeals))
+  //     window.location.reload();
+  //     //this.toastr.success("Successfully Added!")
+  //     //console.log(this.cartMeals)
+  //   }
+  //   //console.log(meal)
+  // }
+
+  addToCart(meal) {
+    this.cartService.addItem(meal);
   }
 
 }

@@ -116,12 +116,34 @@
               </tr>
             </tbody>
           </table>
+          <div *ngIf="userInfo.user_type==2" class="d-flex flex-column align-items-center text-center p-3 py-5">
+            <h3>Customer Location</h3>
+            <div id="mapid" style="height:400px; width: 600px;"></div>
+        </div>
         </div>
   
         <canvas class="my-4 w-100 chartjs-render-monitor" id="myChart" width="1507" height="636" style="display: block; height: 424px; width: 1005px;"></canvas>
       </main>
     </div>
   </div>
+
+<!-- <div class="container">
+  <div class="row">
+    <div class="col-md-6">
+
+      <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+          <h3>Customer Location</h3>
+          <div id="mapid" style="height:400px; width: 400px;"></div>
+      </div>
+
+
+  </div>
+  </div>
+</div> -->
+
+
+
+
 
 
 

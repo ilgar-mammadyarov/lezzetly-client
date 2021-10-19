@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IMeal } from 'src/app/models/IMeal';
+import { CartService } from 'src/app/services/cart.service';
 import { MealsService } from 'src/app/services/meals.service';
 
 @Component({
@@ -11,75 +12,91 @@ export class ShoppingCartComponent implements OnInit {
   meals: any;
   mealIds: any;
   uniqueMealIds = [];
-  total = 0;
+  total: number;
 
-  cartMeals: any;
-  constructor() {
+  cartMeals: any[] = [];
+  constructor(private cartService: CartService) {
    }
 
   ngOnInit(): void {
     //this.getMealIds()
     this.getCartMeals()
-    if( this.cartMeals){
-      this.calculateTotal()
-    }
+    // if( this.cartMeals){
+    //   this.calculateTotal()
+    // }
     
   }
   getCartMeals() {
-    this.cartMeals = JSON.parse(localStorage.getItem('cartMeals')) 
-    //console.log(this.cartMeals)
+    //this.cartMeals = JSON.parse(localStorage.getItem('cartMeals')) 
+    // this.cartMeals = this.cartService.getCartData();
+    this.cartService.cartItems.subscribe(response => {
+      this.cartMeals = response;
+      if(this.cartMeals) {
+        this.calculateTotal(this.cartMeals)
+      }
+    })
   }
-  changeQuantity(id, quantity) {
-    let changedMeals = JSON.parse(localStorage.getItem('cartMeals'))
-    for(let i=0; i<changedMeals.length;i++) {
-      if(changedMeals[i].id === id) {
-        changedMeals[i].quantity = +quantity;
-      }     
-    }
-    localStorage.removeItem('cartMeals');
-    localStorage.setItem('cartMeals', JSON.stringify(changedMeals))
-    window.location.reload();
-  }
-  deleteCartMeal(id) {
-    let changedMeals = JSON.parse(localStorage.getItem('cartMeals'))
-    for(let i=0; i<changedMeals.length;i++) {
-      if(changedMeals[i].id === id) {
-        console.log(changedMeals[i])
-        changedMeals.splice(changedMeals[i],1)
+  // changeQuantity(id, quantity) {
+  //   let changedMeals = JSON.parse(localStorage.getItem('cartMeals'))
+  //   for(let i=0; i<changedMeals.length;i++) {
+  //     if(changedMeals[i].id === id) {
+  //       changedMeals[i].quantity = +quantity;
+  //     }     
+  //   }
+  //   localStorage.removeItem('cartMeals');
+  //   localStorage.setItem('cartMeals', JSON.stringify(changedMeals))
+  //   window.location.reload();
+  // }
+
+
+  deleteCartMeal(i) {
+    this.cartMeals.splice(i,1);
+    this.cartService.setCartData(this.cartMeals)
+    this.calculateTotal(this.cartMeals)
+    // let changedMeals = JSON.parse(localStorage.getItem('cartMeals'))
+    // for(let i=0; i<changedMeals.length;i++) {
+    //   if(changedMeals[i].id === id) {
+    //     console.log(changedMeals[i])
+    //     changedMeals.splice(changedMeals[i],1)
         
-      }     
-    }
-    localStorage.setItem('cartMeals', JSON.stringify(changedMeals))
-    window.location.reload();
-    console.log(changedMeals)
+    //   }     
+    // }
+    // localStorage.setItem('cartMeals', JSON.stringify(changedMeals))
+    // window.location.reload();
+    // console.log(changedMeals)
   }
 
-  calculateTotal() {
-    //console.log(this.cartMeals)
-    for(let i=0; i<this.cartMeals.length; i++){
-      this.total += this.cartMeals[i].quantity * this.cartMeals[i].price
+
+  validateInput(i, event) {
+    const quantity = +event.target.value;
+    if(quantity < 1) {
+      event.target.value = this.cartMeals[i].quantity;
+      return;
     }
+    this.quantityUpdated(quantity, i)
+  }
+
+  private quantityUpdated(qty, i) {
+    this.cartMeals[i].quantity = qty
+
+    this.cartService.setCartData(this.cartMeals)
+    this.calculateTotal(this.cartMeals)
+  }
+
+
+  calculateTotal(data) {
+
+    let subs = 0;
+
+    for(const item of data){
+      subs += item.price * item.quantity;
+    }
+    this.total = subs;
+    //console.log(this.cartMeals)
+    // for(let i=0; i<this.cartMeals.length; i++){
+    //   this.total += this.cartMeals[i].quantity * this.cartMeals[i].price
+    // }
     //console.log(total)
   }
-
-  // getMealIds() {
-  //   if(localStorage.getItem('mealIds') === null) {
-  //     this.mealIds = []
-  //   } else {
-  //     this.mealIds = localStorage.getItem('mealIds');
-  //     //Local storage returns string type and this filter turns it into array and finds unique ids
-  //     //in this form --> "[" "1" "," "]" USE [1] To get the number
-  //     this.uniqueMealIds = [...this.mealIds].filter((item, i, ar) => ar.indexOf(item) === i)
-  //   }
-  //   console.log(this.uniqueMealIds);
-  //   console.log(this.mealIds);
-  // }
-
-  // getMeals() {
-  //   this.mealsService.getMeals().subscribe(
-  //     response => {this.meals = response}
-  //   )
-  //   console.log(this.meals)
-  // }
 
 }

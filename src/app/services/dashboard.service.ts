@@ -31,7 +31,7 @@ export class DashboardService {
     const token = localStorage.getItem('token');
     let headers = new HttpHeaders()
     headers = headers.set('Authorization', `Bearer ${token}`)
-    return this.http.get(environment.baseUrl + 'couriers/' + id + '/activeorders/', {headers})
+    return this.http.get<any>(environment.baseUrl + 'couriers/' + id + '/activeorders/', {headers})
   }
   getCourierOrders(id) {
     const token = localStorage.getItem('token');

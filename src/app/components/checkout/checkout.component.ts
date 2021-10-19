@@ -102,7 +102,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   getCartMeals() {
-    this.cartMeals = JSON.parse(localStorage.getItem('cartMeals')) 
+    this.cartMeals = JSON.parse(localStorage.getItem('cart')) 
     for(let i=0; i<this.cartMeals.length; i++) {
       let obj = {
         "quantity": this.cartMeals[i].quantity,
@@ -120,7 +120,7 @@ export class CheckoutComponent implements OnInit {
     this.mealService.postOrder(this.checkoutForm.value).subscribe(response => {
       //console.log(response)
       this.toastr.success(response.message)
-      localStorage.removeItem('cartMeals')
+      localStorage.removeItem('cart')
     }, error => {
       console.log(error)
       this.toastr.error('Something went wrong ;(((')
