@@ -17,7 +17,7 @@ export class OrdersComponent implements OnInit {
   courierOrders: any;
   userInfo: any;
   couriers: any;
-  //areas = [];
+  areas: any;
   courierAreas: any;
   selectedOrderId: any;
   selectedAreaId: any;
@@ -42,6 +42,7 @@ export class OrdersComponent implements OnInit {
   ngOnInit(): void {
     this.userInfo = this.accountService.user;
     this.createRejectForm()
+    this.getDeliveryAreas()
     if(this.userInfo.user_type == 1) {
       this.getCookOrders()
     }else if(this.userInfo.user_type == 2) {
@@ -75,7 +76,7 @@ export class OrdersComponent implements OnInit {
 
   getCookOrders() {
     //const token = localStorage.getItem('token');
-    this.dashboardService.getCookActiveOrders(this.userInfo.id ).subscribe(response =>{
+    this.dashboardService.getCookOrders(this.userInfo.id ).subscribe(response =>{
       this.orders= response
       //console.log(response)
     }, error =>{
@@ -105,22 +106,32 @@ export class OrdersComponent implements OnInit {
   getCouriers() {
     this.dashboardService.getCouriers().subscribe(response =>{
       this.couriers = response 
-      //console.log(response)
+      console.log(response)
     }, error => {
       console.log(error)
     })
+  }
+
+  getCouriersWithSelectedArea(event) {
+    this.dashboardService.getSearchedCourier(event).subscribe(response =>{
+     // console.log(response)
+      this.couriers = response; 
+    }, error => {
+      console.log(error)
+    })
+    //console.log(event)
   }
 
   
 
 
 
-  // getDeliveryAreas() {
-  //   this.dashboardService.getDeliveryAreas().subscribe(response =>{
-  //     this.areas = response;
-  //     //console.log(response)  
-  //   })
-  // }
+  getDeliveryAreas() {
+    this.dashboardService.getDeliveryAreas().subscribe(response =>{
+      this.areas = response;
+      //console.log(response)  
+    })
+  }
 
   getCouriersWithAreas() {
     this.dashboardService.getCouriersWithAreas().subscribe(response =>{
@@ -136,6 +147,7 @@ export class OrdersComponent implements OnInit {
       "courier": +courierId,
       "delivery_information": this.selectedAreaId
     }
+    console.log(this.selectedAreaId)
     this.dashboardService.addCourier(this.selectedOrderId, body).subscribe(response =>{
      console.log(response)  
      this.toastr.warning(response.message)

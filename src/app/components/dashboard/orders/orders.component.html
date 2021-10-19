@@ -28,8 +28,9 @@
             (click)="openRejectForm(rejectFormModal, order.id)">Reject</button></td>
         <td *ngIf="userInfo.user_type==1"><button (click)="completeOrder(order.id)" class="btn btn-success">Complete</button></td>
         <td *ngIf="userInfo.user_type==1">
-          <button class="btn btn-primary" *ngIf="!order.is_rejected" (click)="open(content, order.id)">Find
+          <button class="btn btn-primary" *ngIf="!order.is_rejected && !order.complete" (click)="open(content, order.id)">Find
             Courier</button>
+            <button class="btn btn-secondary" *ngIf="order.complete">Completed</button>
           <button class="btn btn-secondary" *ngIf="order.is_rejected">Rejected</button>
         </td>
       </tr>
@@ -78,6 +79,10 @@
         </button>
       </div>
       <div class="modal-body">
+        <select [(ngModel)]="selectedArea" (ngModelChange)="getCouriersWithSelectedArea($event)" class="form-select" aria-label="Default select example">
+          <!-- <option selected disabled>Open this select menu</option> -->
+          <option *ngFor="let area of areas" [value]="area.area_name">{{area.area_name}}</option>
+        </select>
         <table class="table">
           <thead>
             <tr>
@@ -100,7 +105,7 @@
               <td>
                 <select name="" id="" (change)="testt($event.target.value)">
                   <option value="" selected disabled>Choose</option>
-                  <option [value]="area.area.id" *ngFor="let area of courier.delivery_areas">
+                  <option [value]="area.id" *ngFor="let area of courier.delivery_areas">
                     <span>{{area.area.area_name}} - {{area.delivery_price}}</span></option>
                 </select>
               </td>

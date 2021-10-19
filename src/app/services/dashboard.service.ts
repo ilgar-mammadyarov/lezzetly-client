@@ -24,6 +24,12 @@ export class DashboardService {
     const token = localStorage.getItem('token');
     let headers = new HttpHeaders()
     headers = headers.set('Authorization', `Bearer ${token}`)
+    return this.http.get<any>(environment.baseUrl + 'cooks/' + id + '/activeorders/', {headers})
+  }
+  getCookOrders(id) {
+    const token = localStorage.getItem('token');
+    let headers = new HttpHeaders()
+    headers = headers.set('Authorization', `Bearer ${token}`)
     return this.http.get<any>(environment.baseUrl + 'cooks/' + id + '/orders/', {headers})
   }
 
@@ -77,6 +83,10 @@ export class DashboardService {
     let headers = new HttpHeaders()
     headers = headers.set('Authorization', `Bearer ${token}`)
     return this.http.patch<any>(environment.baseUrl + 'add-courier/' + orderId, courierId, {headers})
+  }
+
+  getSearchedCourier(searchStr) {
+    return this.http.get(environment.baseUrl + 'couriers/?search=' + searchStr);
   }
 
 }
