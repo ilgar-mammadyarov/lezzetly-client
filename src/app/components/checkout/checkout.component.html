@@ -5,8 +5,9 @@
                 <div class="row">
                   <div class="col-md-6 mb-4 pb-2">
                     <div class="form-outline">
-                        <input formControlName="customer_first_name" type="text" id="first_name" class="form-control form-control-lg" />
                         <label class="form-label" for="first_name">Firstname</label>
+                        <input formControlName="customer_first_name" type="text" id="first_name" class="form-control form-control-lg" />
+                        
                         <span class="text-danger"
                         *ngIf="checkoutForm.get('customer_first_name').invalid
                         && checkoutForm.get('customer_first_name').touched
@@ -15,8 +16,9 @@
                         </span>
                     </div>
                     <div class="form-outline">
-                        <input formControlName="customer_last_name" type="text" id="last_name" class="form-control form-control-lg" />
                         <label class="form-label" for="last_name">Lastname</label>
+                        <input formControlName="customer_last_name" type="text" id="last_name" class="form-control form-control-lg" />
+                        
                         <span class="text-danger"
                         *ngIf="checkoutForm.get('customer_last_name').invalid
                         && checkoutForm.get('customer_last_name').touched
@@ -25,8 +27,9 @@
                         </span>
                     </div>
                     <div class="form-outline">
-                        <input formControlName="customer_phone" type="text" id="phone" class="form-control form-control-lg" />
                         <label class="form-label" for="phone">Phone</label>
+                        <input formControlName="customer_phone" type="text" id="phone" class="form-control form-control-lg" />
+                        
                         <span class="text-danger"
                         *ngIf="checkoutForm.get('customer_phone').invalid
                         && checkoutForm.get('customer_phone').touched
@@ -36,20 +39,22 @@
                     </div>
 
                     <div class="form-outline">
-                        <input formControlName="customer_location" type="text" id="location" class="form-control form-control-lg" />
                         <label class="form-label" for="phone">Location</label>
+                        <input formControlName="customer_location" type="text" id="location" class="form-control form-control-lg" />
+                        
                         <span class="text-danger"
                         *ngIf="checkoutForm.get('customer_location').invalid
                         && checkoutForm.get('customer_location').touched
                         && checkoutForm.get('customer_location').errors['required']">
-                        Location is required
+                        Address is required
                         </span>
                     </div>
 
 
                     <div class="form-outline">
+                        <label class="form-label" for="emailAddress">Email</label>
                       <input formControlName="customer_email" type="email" id="emailAddress" class="form-control form-control-lg" />
-                      <label class="form-label" for="emailAddress">Email</label>
+                      
                       <span class="text-danger"
                       *ngIf="checkoutForm.get('customer_email').invalid
                       && checkoutForm.get('customer_email').touched

@@ -24,9 +24,9 @@
           </select></td>
         <!-- <td><select name="" id=""><option value="" *ngFor="let item of order.items">{{item.quantity}}</option></select></td> -->
         <!-- <td>{{order.items}}</td> -->
-        <td *ngIf="userInfo.user_type==1"><button class="btn btn-danger"
+        <td *ngIf="userInfo.user_type==1"><button [disabled]="order.complete" class="btn btn-danger"
             (click)="openRejectForm(rejectFormModal, order.id)">Reject</button></td>
-        <td *ngIf="userInfo.user_type==1"><button (click)="completeOrder(order.id)" class="btn btn-success">Complete</button></td>
+        <td *ngIf="userInfo.user_type==1"><button [disabled]="order.complete" (click)="completeOrder(order.id)" class="btn btn-success">Complete</button></td>
         <td *ngIf="userInfo.user_type==1">
           <button class="btn btn-primary" *ngIf="!order.is_rejected && !order.complete" (click)="open(content, order.id)">Find
             Courier</button>

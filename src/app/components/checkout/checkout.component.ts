@@ -46,6 +46,7 @@ export class CheckoutComponent implements OnInit {
     navigator.geolocation.getCurrentPosition(position => {
       this.userLatitude = position.coords.latitude;
       this.userLongtitude = position.coords.longitude;
+      console.log(this.userLongtitude + ' ' +this.userLatitude)
       let mymap = L.map('mapid').setView([this.userLatitude, this.userLongtitude], 13);
 
       L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiaWxnYXItbWFtbWFkeWFyb3YiLCJhIjoiY2t1Y2NlczdqMHpiZTJ3cXZtOTgxNHJraCJ9.OM5Fs2GrpkoRLN_Zual0UA', {
@@ -62,7 +63,7 @@ export class CheckoutComponent implements OnInit {
       mymap.on('click', onMapClick);
       function onMapClick(e) {
         this.selectedLatLng = e.latlng.lat + ' ' + e.latlng.lng;
-        
+        console.log(e.latlng)
         console.log(this.selectedLatLng)
           var popup = L.popup();
           popup
@@ -110,7 +111,7 @@ export class CheckoutComponent implements OnInit {
       }
       this.mealItems.push(obj)
     }
-    console.log(this.mealItems)
+    //console.log(this.mealItems)
   }
 
 
@@ -123,7 +124,7 @@ export class CheckoutComponent implements OnInit {
       localStorage.removeItem('cart')
     }, error => {
       console.log(error)
-      this.toastr.error('Something went wrong ;(((')
+      this.toastr.error('Something went wrong')
     })
   }
 
@@ -142,8 +143,8 @@ export class CheckoutComponent implements OnInit {
           customer_email: this.user.email
 
         })
-        console.log(this.user.id)
-        console.log(response)
+       // console.log(this.user.id)
+       // console.log(response)
       })
     }
   }

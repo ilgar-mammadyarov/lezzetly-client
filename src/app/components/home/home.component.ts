@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit {
     navigator.geolocation.getCurrentPosition(position => {
       const latitude = position.coords.latitude;
       const longtitude = position.coords.longitude;
-
+      console.log(latitude + ' ' + longtitude)
 
       const geoApiUrl = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longtitude}&localityLanguage=en`;
 
